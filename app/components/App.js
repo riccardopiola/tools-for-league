@@ -1,0 +1,51 @@
+// @flow
+import React, { Component } from 'react';
+import Paper from 'material-ui/Paper';
+import Menu from 'material-ui/Menu';
+import MenuItem from 'material-ui/MenuItem';
+import AppBar from 'material-ui/AppBar';
+
+import type { appStateType } from '../reducers/appReducer';
+import Ping from './Ping/Ping';
+import Home from './Home/Home';
+
+const selectedStyle = { backgroundColor: 'rgba(0,0,0,0.4)' };
+const menuStyle = { width: '250px', fontSize: '17px' };
+
+export default class App extends Component {
+  props: {
+    changeSubApp: ({ }, string) => void,
+    appState: appStateType
+  };
+  renderSubApp() {
+    switch (this.props.appState.selectedSubApp) {
+      case 'Ping':
+        return <Ping />;
+      default:
+        return <Home />;
+    }
+  }
+  render() {
+    const subApp = this.renderSubApp();
+    return (
+      <div className="app-container">
+        <Paper className="navigation-container" zDepth={4}>
+          <AppBar showMenuIconButton={false} title="League Tools" />
+          <Menu
+            value={this.props.appState.selectedSubApp}
+            selectedMenuItemStyle={selectedStyle}
+            menuItemStyle={menuStyle}
+            onChange={this.props.changeSubApp}
+          >
+            <MenuItem value="Home">Home</MenuItem>
+            <MenuItem value="ConfigSwapper">Config Swapper</MenuItem>
+            <MenuItem value="Ping">Pingtest</MenuItem>
+          </Menu>
+        </Paper>
+        <Paper className="app-space">
+          {subApp}
+        </Paper>
+      </div>
+    );
+  }
+}

@@ -1,0 +1,16 @@
+body {
+  margin: 0;
+}
+
+.app-container {
+  display: flex;
+  height: 100vh;
+}
+.navigation-container {
+  width: 250px;
+  flex: 0;
+}
+.app-space {
+  background-color: white !important;
+  width: 100%;
+}

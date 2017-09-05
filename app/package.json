@@ -1,0 +1,16 @@
+{
+  "name": "tools-for-lol",
+  "productName": "Tools for Lol",
+  "version": "0.1.0",
+  "description": "A simple app with useful tools for League of Legends",
+  "main": "./main.prod.js",
+  "author": {
+    "name": "Riccardo Piola",
+    "email": "riccardopiola@live.it",
+    "url": "https://github.com/riccardopiola"
+  },
+  "scripts": {
+    "postinstall": "npm rebuild --runtime=electron --target=1.6.6 --disturl=https://atom.io/download/atom-shell --build-from-source"
+  },
+  "dependencies": {}
+}
