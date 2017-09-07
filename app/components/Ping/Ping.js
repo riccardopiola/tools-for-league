@@ -22,7 +22,7 @@ class Ping extends Component {
     super(props);
     this.state = {
       mode: 2,
-      max: 6000,
+      max: 20000,
       firstTime: true,
       server: 'EUW'
     };
@@ -34,13 +34,13 @@ class Ping extends Component {
     let max;
     switch (mode) {
       case 1:
-        max = 3000;
+        max = 5000;
         break;
       case 2:
-        max = 6000;
+        max = 20000;
         break;
       case 3:
-        max = 10000;
+        max = 60000;
         break;
       default:
         max = 6000;
