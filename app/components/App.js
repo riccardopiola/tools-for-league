@@ -11,6 +11,7 @@ import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 
 import type { appStateType } from '../reducers/appReducer';
 import PingPage from '../containers/PingPage';
+import ConfigSwapperPage from '../containers/ConfigSwapperPage';
 import Home from './Home/Home';
 import { darkModifications, lightModifications } from '../themes';
 
@@ -29,6 +30,8 @@ export default class App extends Component {
     switch (this.props.appState.selectedSubApp) {
       case 'Ping':
         return <PingPage />;
+      case 'ConfigSwapper':
+        return <ConfigSwapperPage />;
       default:
         return <Home />;
     }
