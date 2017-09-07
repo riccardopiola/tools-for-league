@@ -7,7 +7,7 @@ export type appStateType = {
 
 type actionType = {
   type: string,
-  value?: string
+  value?: any
 };
 
 export default function app(state: appStateType = {}, action: actionType) {
