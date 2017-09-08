@@ -27,6 +27,7 @@ export default function calculatePingNode(duration, server) {
       }, duration);
       do {
         try {
+          console.log("New round");
           const onePing = yield singlePing(serverIP, this);
           pingsArray.push(onePing);
         } catch (e) {
@@ -40,21 +41,33 @@ export default function calculatePingNode(duration, server) {
     }
     function singlePing() {
       const startDate = Date.now();
+      console.log(new Date(startDate));
       const session = ping.createSession(options);
+      console.log("Session created");
       session.on('error', (error) => {
-        console.trace(error.toString());
+        console.error("Error", error);
       });
       session.pingHost(serverIP, (error, target, sent, rcvd) => {
+        console.log("Callback fired");
         const ms = rcvd - sent;
+        console.log(typeof ms, ms);
+        if (!ms) debugger;
         if (error) {
+          console.error("Error in callback", error);
+          session.close();
           gen.throw(error);
         } else {
           const delta = Date.now() - startDate;
+          console.log(delta);
           if (delta < 1000) {
             setTimeout(() => {
+              session.close();
+              console.log("success");
               gen.next(ms);
             }, 1000 - delta);
           } else {
+            session.close();
+            console.log("success delay");
             gen.next(ms);
           }
         }

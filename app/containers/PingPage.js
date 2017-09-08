@@ -6,7 +6,8 @@ import * as pingActions from '../actions/pingActions';
 function mapStateToProps(state) {
   return {
     completed: state.ping.completed,
-    ping: state.ping.ping
+    ping: state.ping.ping,
+    ready: state.ping.ready
   };
 }
 

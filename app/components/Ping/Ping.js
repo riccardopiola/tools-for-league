@@ -12,8 +12,11 @@ class Ping extends Component {
   props: {
     startLoading: (number) => void,
     calculatePing: () => void,
+    changeReadyState: (boolean) => void,
+    resetPing: () => void,
     completed: number,
-    ping?: number
+    ping: number,
+    ready: boolean
   }
   defaultProps: {
     completed: 0
@@ -23,7 +26,6 @@ class Ping extends Component {
     this.state = {
       mode: 2,
       max: 20000,
-      firstTime: true,
       server: 'EUW'
     };
     this.changeMode = this.changeMode.bind(this);
@@ -45,25 +47,28 @@ class Ping extends Component {
       default:
         max = 6000;
     }
-    this.setState({ mode, max, firstTime: true });
+    this.setState({ mode, max });
+    this.props.changeReadyState(true);
   }
   handleStart() {
-    this.props.startLoading();
+    this.props.changeReadyState(false);
+    this.props.resetPing();
+    this.props.startLoading(this.state.max);
     this.props.calculatePing(this.state.max, this.state.server);
-    this.setState({ firstTime: false });
   }
   handleChangeServer(e, key, value) {
-    this.setState({ server: value, firstTime: true });
+    this.setState({ server: value });
+    this.props.changeReadyState(true);
   }
   render() {
     let buttonStyles;
     let buttonMessage;
-    if (this.props.completed === 0 && this.state.firstTime) {
+    if (this.props.ready && this.props.completed === 0) {
       buttonStyles = { backgroundColor: '#896c3d', cursor: 'pointer', color: '#ffffff' };
       buttonMessage = 'GO';
-    } else if (this.props.ping === -2) {
+    } else if (this.props.ping === -2 && this.props.completed === 0) {
       buttonStyles = { backgroundColor: '#000000', color: '#ffffff' };
-      buttonMessage = 'FAIL';
+      buttonMessage = 'FAIL\n 503';
     } else if (this.props.completed === 0 && this.props.ping !== -1) {
       buttonMessage = `${this.props.ping} ms`;
       if (this.props.ping < 75)
@@ -74,7 +79,8 @@ class Ping extends Component {
         buttonStyles = { backgroundColor: 'orange', color: '#000000' };
       else
         buttonStyles = { backgroundColor: 'red', color: '#ffffff' };
-    } else {
+    }
+    else {
       buttonMessage = 'PINGING';
       buttonStyles = { backgroundColor: 'rgba(0,0,0,0.4)', color: '#ffffff' };
     }
@@ -104,18 +110,21 @@ class Ping extends Component {
             onClick={() => this.changeMode(1)}
             primary={(this.state.mode === 1)}
             label="QUICK TEST"
+            disabled={this.props.completed !== 0}
           />
           <RaisedButton
             key={2}
             onClick={() => this.changeMode(2)}
             primary={(this.state.mode === 2)}
             label="NORMAL TEST"
+            disabled={this.props.completed !== 0}
           />
           <RaisedButton
             key={3}
             onClick={() => this.changeMode(3)}
             primary={(this.state.mode === 3)}
             label="LONG TEST"
+            disabled={this.props.completed !== 0}
           />
         </div>
         <div className={styles.pingTest}>

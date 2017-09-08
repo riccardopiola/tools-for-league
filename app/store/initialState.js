@@ -6,7 +6,8 @@ export default {
   },
   ping: {
     completed: 0,
-    ping: -1
+    ping: -1,
+    ready: true
   }
 };
 

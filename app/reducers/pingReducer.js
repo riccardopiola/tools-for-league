@@ -1,9 +1,10 @@
 // @flow
-import { REFRESHING_PING, NEW_PING, RESET_PING } from '../actions/pingActions';
+import { REFRESHING_PING, NEW_PING, END_LOADING, CHANGE_READY_STATE, RESET_PING } from '../actions/pingActions';
 
 export type pingStateType = {
   completed?: number,
-  ping?: number
+  ping?: number,
+  ready?: boolean
 };
 
 type actionType = {
@@ -22,12 +23,22 @@ export default function ping(state: pingStateType = {}, action: actionType) {
       return {
         ...state,
         ping: action.value,
+      };
+    case END_LOADING:
+      return {
+        ...state,
         completed: 0
+      };
+    case CHANGE_READY_STATE:
+      return {
+        ...state,
+        ready: action.value
       };
     case RESET_PING:
       return {
         ...state,
-        ping: -1
+        ping: -2,
+        completed: 1000
       };
     default:
       return state;
