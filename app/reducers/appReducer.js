@@ -1,8 +1,9 @@
 // @flow
-import { CHANGE_SUBAPP } from '../actions/appActions';
+import { CHANGE_SUBAPP, CAN_CHANGE_SUBAPP } from '../actions/appActions';
 
 export type appStateType = {
-  selectedSubApp?: string
+  selectedSubApp?: string,
+  canChangeSubApp?: boolean
 };
 
 type actionType = {
@@ -12,11 +13,19 @@ type actionType = {
 
 export default function app(state: appStateType = {}, action: actionType) {
   switch (action.type) {
-    case CHANGE_SUBAPP:
+    case CHANGE_SUBAPP: {
+      if (state.canChangeSubApp) {
+        return {
+          ...state,
+          selectedSubApp: action.value
+        };
+      }
+    }
+    case CAN_CHANGE_SUBAPP:
       return {
         ...state,
-        selectedSubApp: action.value
-      };
+        canChangeSubApp: action.value
+      }
     default:
       return state;
   }

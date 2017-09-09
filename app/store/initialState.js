@@ -5,7 +5,8 @@ export default function getInitialState() {
   const localSettings = fetchLocalSettings();
   return {
     app: {
-      selectedSubApp: 'Home'
+      selectedSubApp: 'Home',
+      canChangeSubApp: true
     },
     ping: {
       completed: 0,

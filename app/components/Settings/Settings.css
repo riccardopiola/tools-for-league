@@ -53,3 +53,8 @@
   line-height: 48px;
   font-weight: 500;
 }
+
+.footer{
+  display: flex;
+  justify-content: flex-end;
+}

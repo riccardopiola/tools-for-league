@@ -4,6 +4,9 @@ import AppBar from 'material-ui/AppBar';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import Divider from 'material-ui/Divider';
+import Dialog from 'material-ui/Dialog';
+import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';
 import type { Children } from 'react';
 
 import FolderSelection from './FolderSelection';
@@ -14,12 +17,15 @@ class Settings extends Component {
     settings: {
       lolFolder: string,
       preferredServer: string
-    }
+    },
+    canChangeSubApp: (boolean) => void;
+    changeSubApp: (string) => void;
   }
   state: {
     lolFolder: string,
     preferredServer: string,
-    stagedChanges: boolean
+    stagedChanges: boolean,
+    openDialog: boolean
   }
   constructor(props) {
     super(props);
@@ -27,12 +33,34 @@ class Settings extends Component {
     this.state = {
       lolFolder,
       preferredServer,
-      stagedChanges: false
+      stagedChanges: false,
+      openDialog: false
     };
     this.handleChange = this.handleChange.bind(this);
+    this.save = this.save.bind(this);
+    this.handleCloseDialog = this.handleCloseDialog.bind(this);
+    this.handleDiscardChanges = this.handleDiscardChanges.bind(this);
+  }
+  componentWillUnmount() {
+    if (this.state.stagedChanges) {
+      this.setState({ openDialog: true });
+    }
   }
   handleChange(title: string, newValue: string | boolean) {
     this.setState({ [title]: newValue, stagedChanges: true });
+    this.props.canChangeSubApp(false);
+  }
+  save() {
+    // TODO: Implement actual saving
+    this.props.canChangeSubApp(true);
+    this.setState({ stagedChanges: false });
+  }
+  handleCloseDialog() {
+    this.setState({ openDialog: false });
+  }
+  handleDiscardChanges() {
+    this.canChangeSubApp(true);
+    this.changeSubApp('Home');
   }
   render() {
     return (
@@ -47,7 +75,7 @@ class Settings extends Component {
           <div className={styles.singleSettingContainer}>
             <div className={styles.selectText}>Preferred server</div>
             <DropDownMenu
-              value={this.state.preferredServer} 
+              value={this.state.preferredServer}
               onChange={(e, i, value) => this.handleChange('preferredServer', value)}
               className={styles.selectMenu}
             >
@@ -59,6 +87,38 @@ class Settings extends Component {
             </DropDownMenu>
           </div>
         </SettingsSection>
+        <footer className={styles.footer}>
+          <RaisedButton
+            primary={true}
+            label="SAVE"
+            onClick={this.save}
+            disabled={!this.state.stagedChanges}
+          />
+        </footer>
+        <Dialog
+          actions={[
+            <FlatButton
+              label="Cancel"
+              primary={true}
+              onClick={this.handleCloseDialog}
+            />,
+            <FlatButton
+              label="Discard"
+              primary={true}
+              onClick={this.handleDiscardChanges}
+            />,
+            <RaisedButton
+              label="SAVE"
+              primary={true}
+              onClick={this.save}
+            />
+          ]}
+          modal={true}
+          open={this.state.openDialog}
+          onRequestClose={this.handleCloseDialog}
+        >
+          Discard changes?
+        </Dialog>
       </div>
     );
   }
