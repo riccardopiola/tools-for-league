@@ -3,11 +3,11 @@ import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 
 import { configureStore, history } from './store/configureStore';
-import initialState from './store/initialState';
+import getInitialState from './store/initialState';
 import Root from './containers/Root';
 import './app.global.css';
 
-const store = configureStore(initialState);
+const store = configureStore(getInitialState());
 
 
 render(

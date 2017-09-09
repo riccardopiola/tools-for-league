@@ -10,7 +10,7 @@
  *
  * @flow
  */
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, dialog, ipcMain } from 'electron';
 import MenuBuilder from './menu';
 
 let mainWindow = null;
@@ -83,4 +83,13 @@ app.on('ready', async () => {
 
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu();
+});
+
+ipcMain.on('open-select-directory', event => {
+  dialog.showOpenDialog(mainWindow, {
+    title: 'Select League of Legends folder',
+    properties: ['openDirectory']
+  }, dirPath => {
+    event.sender.send('folder-selected', dirPath);
+  });
 });

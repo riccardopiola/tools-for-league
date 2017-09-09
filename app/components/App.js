@@ -13,6 +13,7 @@ import type { appStateType } from '../reducers/appReducer';
 import PingPage from '../containers/PingPage';
 import ConfigSwapperPage from '../containers/ConfigSwapperPage';
 import Home from './Home/Home';
+import SettingsPage from '../containers/SettingsPage';
 import { darkModifications, lightModifications } from '../themes';
 
 const darkTheme = getMuiTheme(darkBaseTheme, darkModifications);
@@ -32,6 +33,8 @@ export default class App extends Component {
         return <PingPage />;
       case 'ConfigSwapper':
         return <ConfigSwapperPage />;
+      case 'Settings':
+        return <SettingsPage />
       default:
         return <Home />;
     }
@@ -52,6 +55,7 @@ export default class App extends Component {
               <MenuItem value="Home">Home</MenuItem>
               <MenuItem value="ConfigSwapper">Config Swapper</MenuItem>
               <MenuItem value="Ping">Pingtest</MenuItem>
+              <MenuItem value="Settings">Settings</MenuItem>
             </Menu>
           </Paper>
         </MuiThemeProvider>

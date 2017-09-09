@@ -16,7 +16,8 @@ class Ping extends Component {
     resetPing: () => void,
     completed: number,
     ping: number,
-    ready: boolean
+    ready: boolean,
+    preferredServer: string
   }
   defaultProps: {
     completed: 0
@@ -26,7 +27,7 @@ class Ping extends Component {
     this.state = {
       mode: 2,
       max: 20000,
-      server: 'EUW'
+      server: props.preferredServer
     };
     this.changeMode = this.changeMode.bind(this);
     this.handleStart = this.handleStart.bind(this);

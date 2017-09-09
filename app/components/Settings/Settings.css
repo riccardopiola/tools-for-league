@@ -1,0 +1,55 @@
+.settingsContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.settingsSection {
+  margin: 25px 10px;
+  padding: 10px 0;
+}
+
+.sectionHeader {
+  margin: 0 24px;
+  padding-bottom: 5px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #896c3d;
+  border-bottom: 2px solid #896c3d;
+}
+
+.singleSettingContainer {
+  padding: 10px 24px;
+  display: flex;
+  height: 48px;
+  align-items: center;
+}
+
+.folderIcon {
+  width: 20%;
+}
+
+.folderSelectionText {
+  margin: 0 10px;
+  padding: 0 24px;
+  width: 80%;
+  height: 48px;
+  border-radius: 24px;
+  line-height: 48px;
+  font-style: italic;
+  font-weight: 600;
+  color: rgba(0,0,0,0.7);
+}
+
+.selectMenu {
+  width: 20%;
+}
+
+.selectText {
+  width: 80%;
+  margin: 0 10px;
+  height: 48px;
+  border-radius: 24px;
+  line-height: 48px;
+  font-weight: 500;
+}
