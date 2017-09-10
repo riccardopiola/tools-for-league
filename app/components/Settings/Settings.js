@@ -18,8 +18,9 @@ class Settings extends Component {
       lolFolder: string,
       preferredServer: string
     },
-    canChangeSubApp: (boolean) => void;
-    changeSubApp: (string) => void;
+    changeCanChangeSubApp: (boolean) => void,
+    changeSubApp: (string) => void,
+    wantToChangeSubApp: boolean
   }
   state: {
     lolFolder: string,
@@ -41,26 +42,26 @@ class Settings extends Component {
     this.handleCloseDialog = this.handleCloseDialog.bind(this);
     this.handleDiscardChanges = this.handleDiscardChanges.bind(this);
   }
-  componentWillUnmount() {
-    if (this.state.stagedChanges) {
+  componentWillReceiveProps() {
+    if (this.props.wantToChangeSubApp) {
       this.setState({ openDialog: true });
     }
   }
   handleChange(title: string, newValue: string | boolean) {
     this.setState({ [title]: newValue, stagedChanges: true });
-    this.props.canChangeSubApp(false);
+    this.props.changeCanChangeSubApp(false);
   }
   save() {
     // TODO: Implement actual saving
-    this.props.canChangeSubApp(true);
+    this.props.changeCanChangeSubApp(true);
     this.setState({ stagedChanges: false });
   }
   handleCloseDialog() {
     this.setState({ openDialog: false });
   }
   handleDiscardChanges() {
-    this.canChangeSubApp(true);
-    this.changeSubApp('Home');
+    this.props.changeCanChangeSubApp(true);
+    this.props.changeSubApp('Home');
   }
   render() {
     return (

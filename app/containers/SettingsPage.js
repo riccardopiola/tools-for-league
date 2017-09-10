@@ -3,16 +3,17 @@ import { connect } from 'react-redux';
 
 import Settings from '../components/Settings/Settings';
 import * as SettingsActions from '../actions/settingsActions';
-import * as AppActions from '..actions/appActions';
+import * as AppActions from '../actions/appActions';
 
 function mapStateToProps(state) {
   return {
     settings: state.settings,
+    canChangeSubApp: state.app.canChangeSubApp
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({...SettingsActions, ...AppActions},
+  return bindActionCreators({ ...SettingsActions, ...AppActions },
     dispatch);
 }
 

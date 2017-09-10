@@ -9,7 +9,7 @@ export function changeSubApp(e: {}, value: string) {
   };
 }
 
-export function canChangeSubApp(value) {
+export function changeCanChangeSubApp(value: boolean) {
   return {
     type: CAN_CHANGE_SUBAPP,
     value
