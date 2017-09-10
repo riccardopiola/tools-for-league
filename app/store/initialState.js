@@ -6,7 +6,8 @@ export default function getInitialState() {
   return {
     app: {
       selectedSubApp: 'Home',
-      canChangeSubApp: true
+      canChangeSubApp: true,
+      openExitDialog: false
     },
     ping: {
       completed: 0,

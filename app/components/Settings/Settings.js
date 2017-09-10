@@ -18,50 +18,43 @@ class Settings extends Component {
       lolFolder: string,
       preferredServer: string
     },
+    canChangeSubApp: boolean,
     changeCanChangeSubApp: (boolean) => void,
     changeSubApp: (string) => void,
-    wantToChangeSubApp: boolean
+    openCloseDialog: (boolean) => void,
+    openExitDialog: boolean
   }
   state: {
     lolFolder: string,
-    preferredServer: string,
-    stagedChanges: boolean,
-    openDialog: boolean
+    preferredServer: string
   }
   constructor(props) {
     super(props);
     const { lolFolder, preferredServer } = props.settings;
     this.state = {
       lolFolder,
-      preferredServer,
-      stagedChanges: false,
-      openDialog: false
+      preferredServer
     };
     this.handleChange = this.handleChange.bind(this);
     this.save = this.save.bind(this);
     this.handleCloseDialog = this.handleCloseDialog.bind(this);
     this.handleDiscardChanges = this.handleDiscardChanges.bind(this);
   }
-  componentWillReceiveProps() {
-    if (this.props.wantToChangeSubApp) {
-      this.setState({ openDialog: true });
-    }
-  }
   handleChange(title: string, newValue: string | boolean) {
-    this.setState({ [title]: newValue, stagedChanges: true });
+    this.setState({ [title]: newValue });
     this.props.changeCanChangeSubApp(false);
   }
   save() {
     // TODO: Implement actual saving
     this.props.changeCanChangeSubApp(true);
-    this.setState({ stagedChanges: false });
+    this.props.openCloseDialog(false);
   }
   handleCloseDialog() {
-    this.setState({ openDialog: false });
+    this.props.openCloseDialog(false);
   }
   handleDiscardChanges() {
     this.props.changeCanChangeSubApp(true);
-    this.props.changeSubApp('Home');
+    this.props.changeSubApp({}, 'Home');
   }
   render() {
     return (
@@ -93,7 +86,7 @@ class Settings extends Component {
             primary={true}
             label="SAVE"
             onClick={this.save}
-            disabled={!this.state.stagedChanges}
+            disabled={this.props.canChangeSubApp}
           />
         </footer>
         <Dialog
@@ -115,7 +108,7 @@ class Settings extends Component {
             />
           ]}
           modal={true}
-          open={this.state.openDialog}
+          open={this.props.openExitDialog}
           onRequestClose={this.handleCloseDialog}
         >
           Discard changes?

@@ -8,7 +8,7 @@ import * as AppActions from '../actions/appActions';
 function mapStateToProps(state) {
   return {
     settings: state.settings,
-    canChangeSubApp: state.app.canChangeSubApp
+    ...state.app
   };
 }
 

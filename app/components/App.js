@@ -25,8 +25,7 @@ const menuStyle = { width: '250px', fontSize: '17px' };
 export default class App extends Component {
   props: {
     changeSubApp: ({ }, string) => void,
-    appState: appStateType,
-    canChangeSubApp: (boolean) => void
+    appState: appStateType
   };
   renderSubApp() {
     switch (this.props.appState.selectedSubApp) {
