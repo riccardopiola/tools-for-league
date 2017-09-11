@@ -15,44 +15,46 @@ import styles from './Settings.css';
 class Settings extends Component {
   props: {
     settings: {
-      lolFolder: string,
-      preferredServer: string
+      general: {
+        lolFolder: string,
+        preferredServer: string,
+        settingsPath: string
+      }
     },
     canChangeSubApp: boolean,
     changeCanChangeSubApp: (boolean) => void,
-    changeSubApp: (string) => void,
+    changeSubApp: ({}, string) => void,
     openCloseDialog: (boolean) => void,
+    saveSettings: (Object) => void,
     openExitDialog: boolean
   }
   state: {
-    lolFolder: string,
-    preferredServer: string
+    general: {
+      lolFolder:string,
+      preferredServer: string
+    }
   }
-  constructor(props) {
-    super(props);
-    const { lolFolder, preferredServer } = props.settings;
-    this.state = {
-      lolFolder,
-      preferredServer
-    };
-    this.handleChange = this.handleChange.bind(this);
-    this.save = this.save.bind(this);
-    this.handleCloseDialog = this.handleCloseDialog.bind(this);
-    this.handleDiscardChanges = this.handleDiscardChanges.bind(this);
+  state = {
+    general: {
+      lolFolder: this.props.settings.general.lolFolder,
+      preferredServer: this.props.settings.general.preferredServer
+    }
   }
-  handleChange(title: string, newValue: string | boolean) {
-    this.setState({ [title]: newValue });
+  handleChange = (section: string, title: string, newValue: string | boolean): void => {
+    const newSection = Object.assign({}, this.state[section], { [title]: newValue });
+    this.setState({ [section]: newSection });
     this.props.changeCanChangeSubApp(false);
   }
-  save() {
-    // TODO: Implement actual saving
+  save = () => {
+    this.props.saveSettings(this.state);
     this.props.changeCanChangeSubApp(true);
     this.props.openCloseDialog(false);
   }
-  handleCloseDialog() {
+  handleCloseDialog = () => {
     this.props.openCloseDialog(false);
   }
-  handleDiscardChanges() {
+  handleDiscardChanges = () => {
+    this.props.openCloseDialog(false);
     this.props.changeCanChangeSubApp(true);
     this.props.changeSubApp({}, 'Home');
   }
@@ -64,13 +66,18 @@ class Settings extends Component {
           title="Settings"
         />
         <SettingsSection title="General">
-          <FolderSelection title="lolFolder" folder={this.state.lolFolder} onChange={this.handleChange} />
+          <FolderSelection
+            section="general"
+            title="lolFolder"
+            folder={this.state.general.lolFolder}
+            onChange={this.handleChange}
+          />
           <Divider style={{ margin: '-1px 24px 0px 24px', marginLeft: '24px' }} />
           <div className={styles.singleSettingContainer}>
             <div className={styles.selectText}>Preferred server</div>
             <DropDownMenu
-              value={this.state.preferredServer}
-              onChange={(e, i, value) => this.handleChange('preferredServer', value)}
+              value={this.state.general.preferredServer}
+              onChange={(e: Object, i: number, value: string) => this.handleChange('general', 'preferredServer', value)}
               className={styles.selectMenu}
             >
               <MenuItem value={'EUW'} primaryText="EUW" />
@@ -118,6 +125,11 @@ class Settings extends Component {
   }
 }
 
+type SettingsSectionProps = {
+  children: Children,
+  title: string
+};
+
 const SettingsSection = (props: SettingsSectionProps) => {
   return (
     <div className={styles.settingsSection}>
@@ -127,11 +139,6 @@ const SettingsSection = (props: SettingsSectionProps) => {
       {props.children}
     </div>
   );
-};
-
-type SettingsSectionProps = {
-  children: Children,
-  title: string
 };
 
 export default Settings;

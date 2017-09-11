@@ -8,7 +8,7 @@ function mapStateToProps(state) {
     completed: state.ping.completed,
     ping: state.ping.ping,
     ready: state.ping.ready,
-    preferredServer: state.settings.preferredServer
+    preferredServer: state.settings.general.preferredServer
   };
 }
 

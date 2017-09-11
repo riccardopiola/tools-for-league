@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from 'react';
 import { ipcRenderer } from 'electron';
 import fs from 'fs';
@@ -10,30 +11,28 @@ import styles from './Settings.css';
 class FolderSelection extends Component {
   props: {
     folder: string,
-    onChange: (string, string) => void,
-    title: string
+    onChange: (string, string, string|boolean) => void,
+    title: string,
+    section: string
   }
-  constructor(props) {
-    super(props);
-    this.state = {
-      valid: true,
-      folder: props.folder,
-      snackBarOpen: false,
-      snackBarMessage: ''
-    };
+  state = {
+    valid: true,
+    folder: this.props.folder,
+    snackBarOpen: false,
+    snackBarMessage: ''
   }
   requestOpenFolderDialog = () => {
     ipcRenderer.send('open-select-directory');
-    ipcRenderer.on('folder-selected', (e, dirPathArr) => {
+    ipcRenderer.on('folder-selected', (e: Object, dirPathArr: string[]) => {
       if (dirPathArr[0].length > 1) {
         if (validate(this.props.title, dirPathArr[0])) {
           this.setState({
-            valid: true, 
+            valid: true,
             folder: dirPathArr[0],
             snackBarOpen: true,
             snackBarMessage: 'Successfully updated League of Legends folder'
           });
-          this.props.onChange(this.props.title, dirPathArr[0]);
+          this.props.onChange(this.props.section, this.props.title, dirPathArr[0]);
         } else {
           this.setState({
             valid: false,
@@ -67,18 +66,17 @@ class FolderSelection extends Component {
           onRequestClose={this.handleRequestClose}
         />
       </div>
-    )
+    );
   }
 }
 
-function validate(title, thePath) {
+function validate(title: string, thePath: string): boolean {
   switch (title) {
     case 'lolFolder': {
       const files = fs.readdirSync(thePath);
       if (files.includes('Config') && files.includes('RADS'))
         return true;
-      else
-        return false;
+      return false;
     }
     default:
       return true;

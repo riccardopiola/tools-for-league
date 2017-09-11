@@ -2,8 +2,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import Settings from '../components/Settings/Settings';
-import * as SettingsActions from '../actions/settingsActions';
-import * as AppActions from '../actions/appActions';
+import * as appActions from '../actions/appActions';
+import * as settingsActions from '../actions/settingsActions';
 
 function mapStateToProps(state) {
   return {
@@ -13,7 +13,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ ...SettingsActions, ...AppActions },
+  return bindActionCreators({ ...settingsActions, ...appActions },
     dispatch);
 }
 

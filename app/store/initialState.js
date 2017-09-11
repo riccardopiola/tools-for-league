@@ -14,10 +14,7 @@ export default function getInitialState() {
       ping: -1,
       ready: true
     },
-    settings: {
-      lolFolder: localSettings.lolFolder,
-      preferredServer: localSettings.preferredServer
-    }
+    settings: localSettings
   };
 }
 
@@ -25,19 +22,19 @@ function fetchLocalSettings() {
   const AppDataFolder = (process.platform === 'darwin') ?
     '/Applications/Tools for Lol.app/Contents' :           // Mac path
     `${process.env.APPDATA}/../Local/Programs/tools-for-lol`; // Win path
-  const settingsPath = path.join(AppDataFolder, 'settings', 'settings.json');
+  const settingsPath = path.join(AppDataFolder, 'data', 'settings.json');
   let settingsJSON;
-  if (fs.readdirSync(AppDataFolder).some(name => name === 'settings')) {
+  if (fs.readdirSync(AppDataFolder).some(name => name === 'data')) {
     settingsJSON = JSON.parse(fs.readFileSync(settingsPath, 'utf-8'));
   } else {
-    settingsJSON = getDefaultSettings();
-    fs.mkdirSync(`${AppDataFolder}/settings`);
+    settingsJSON = getDefaultSettings(settingsPath);
+    fs.mkdirSync(`${AppDataFolder}/data`);
     fs.writeFileSync(settingsPath, JSON.stringify(settingsJSON));
   }
   return settingsJSON;
 }
 
-function getDefaultSettings() {
+function getDefaultSettings(settingsPath) {
   let lolFolder;
   if (process.platform === 'darwin') {
     lolFolder = `${process.env.HOME}/Applications/League of Legends.app/Contents/LoL`;
@@ -45,7 +42,10 @@ function getDefaultSettings() {
     lolFolder = 'C:/Riot Games/League of Legends';
   }
   return {
-    lolFolder,
-    preferredServer: 'EUW'
-  }
+    general: {
+      lolFolder,
+      settingsPath,
+      preferredServer: 'EUW'
+    }
+  };
 }

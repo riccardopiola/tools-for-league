@@ -10,6 +10,7 @@
 <PROJECT_ROOT>/git/.*
 
 [include]
+/node_modules/npm/*.js
 
 [libs]
 

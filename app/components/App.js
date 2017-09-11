@@ -34,7 +34,7 @@ export default class App extends Component {
       case 'ConfigSwapper':
         return <ConfigSwapperPage />;
       case 'Settings':
-        return <SettingsPage />
+        return <SettingsPage />;
       default:
         return <Home />;
     }

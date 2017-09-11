@@ -10,11 +10,12 @@
     "node": true
   },
   "rules": {
+    "curly": "off",
     "arrow-parens": ["off"],
     "compat/compat": "error",
     "consistent-return": "off",
     "comma-dangle": "off",
-    "flowtype-errors/show-errors": "error",
+    "flowtype-errors/show-errors": 0,
     "generator-star-spacing": "off",
     "import/no-unresolved": "error",
     "import/no-extraneous-dependencies": "off",
@@ -30,7 +31,10 @@
     }],
     "react/jsx-no-bind": "off",
     "react/jsx-filename-extension": ["error", { "extensions": [".js", ".jsx"] }],
-    "react/prefer-stateless-function": "off"
+    "react/prefer-stateless-function": "off",
+    "react/no-unused-prop-types": "off",
+    "react/jsx-boolean-value": "off",
+    "arrow-body-style": "off"
   },
   "plugins": [
     "flowtype",

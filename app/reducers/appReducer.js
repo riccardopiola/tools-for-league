@@ -42,7 +42,7 @@ export default function app(state: appStateType = {}, action: actionType) {
       return {
         ...state,
         openExitDialog: action.value
-      }
+      };
     default:
       return state;
   }

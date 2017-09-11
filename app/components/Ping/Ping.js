@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import AppBar from 'material-ui/AppBar';
@@ -22,18 +23,12 @@ class Ping extends Component {
   defaultProps: {
     completed: 0
   }
-  constructor(props) {
-    super(props);
-    this.state = {
-      mode: 2,
-      max: 20000,
-      server: props.preferredServer
-    };
-    this.changeMode = this.changeMode.bind(this);
-    this.handleStart = this.handleStart.bind(this);
-    this.handleChangeServer = this.handleChangeServer.bind(this);
+  state = {
+    mode: 2,
+    max: 20000,
+    server: this.props.preferredServer
   }
-  changeMode(mode) {
+  changeMode = (mode: number) => {
     let max;
     switch (mode) {
       case 1:
@@ -51,13 +46,13 @@ class Ping extends Component {
     this.setState({ mode, max });
     this.props.changeReadyState(true);
   }
-  handleStart() {
+  handleStart = () => {
     this.props.changeReadyState(false);
     this.props.resetPing();
     this.props.startLoading(this.state.max);
     this.props.calculatePing(this.state.max, this.state.server);
   }
-  handleChangeServer(e, key, value) {
+  handleChangeServer = (e: Event, key, value) => {
     this.setState({ server: value });
     this.props.changeReadyState(true);
   }
@@ -80,8 +75,7 @@ class Ping extends Component {
         buttonStyles = { backgroundColor: 'orange', color: '#000000' };
       else
         buttonStyles = { backgroundColor: 'red', color: '#ffffff' };
-    }
-    else {
+    } else {
       buttonMessage = 'PINGING';
       buttonStyles = { backgroundColor: 'rgba(0,0,0,0.4)', color: '#ffffff' };
     }
