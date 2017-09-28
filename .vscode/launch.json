@@ -5,10 +5,27 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Launch",
             "type": "node",
             "request": "launch",
-            "name": "Launch Program",
-            "program": "${workspaceRoot}/app/"
+            "program": "${workspaceRoot}/app/main.dev",
+            "stopOnEntry": false,
+            "args": [],
+            "cwd": "${workspaceRoot}/app",
+            "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron",
+            "runtimeArgs": [
+                ".",
+                "--enable-logging"
+            ],
+            "env": {},
+            "sourceMaps": false,
+        },
+        {
+            "name": "Attach",
+            "type": "node",
+            "request": "attach",
+            "port": 5858,
+            "sourceMaps": false,
         }
     ]
 }

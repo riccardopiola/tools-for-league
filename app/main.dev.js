@@ -16,15 +16,15 @@ import MenuBuilder from './menu';
 let mainWindow = null;
 
 if (process.env.NODE_ENV === 'production') {
-  const sourceMapSupport = require('source-map-support');
+  const sourceMapSupport = require('source-map-support'); //eslint-disable-line
   sourceMapSupport.install();
 }
 
 if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
   require('electron-debug')();
-  const path = require('path');
+  const path = require('path'); //eslint-disable-line
   const p = path.join(__dirname, '..', 'app', 'node_modules');
-  require('module').globalPaths.push(p);
+  require('module').globalPaths.push(p); //eslint-disable-line
 }
 
 const installExtensions = async () => {
@@ -91,5 +91,33 @@ ipcMain.on('open-select-directory', event => {
     properties: ['openDirectory']
   }, dirPath => {
     event.sender.send('folder-selected', dirPath);
+  });
+});
+
+ipcMain.on('launch-league-app', async () => {
+  if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
+    await installExtensions();
+  }
+
+  mainWindow = new BrowserWindow({
+    show: false,
+    width: 1024,
+    height: 728
+  });
+
+  mainWindow.loadURL(`file://${__dirname}/league-flash.html`);
+
+  // @TODO: Use 'ready-to-show' event
+  //        https://github.com/electron/electron/blob/master/docs/api/browser-window.md#using-ready-to-show-event
+  mainWindow.webContents.on('did-finish-load', () => {
+    if (!mainWindow) {
+      throw new Error('"mainWindow" is not defined');
+    }
+    mainWindow.show();
+    mainWindow.focus();
+  });
+
+  mainWindow.on('closed', () => {
+    mainWindow = null;
   });
 });

@@ -38,7 +38,8 @@
       "app.html",
       "main.prod.js",
       "main.prod.js.map",
-      "package.json"
+      "package.json",
+      "league-flash.html"
     ],
     "dmg": {
       "contents": [

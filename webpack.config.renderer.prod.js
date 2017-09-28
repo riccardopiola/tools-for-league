@@ -18,12 +18,19 @@ export default merge.smart(baseConfig, {
 
   target: 'electron-renderer',
 
-  entry: './app/index',
+  entry: {
+    main: [
+      './app/index'
+    ],
+    leagueFlash: [
+      './app/leagueFlash'
+    ]
+  },
 
   output: {
     path: path.join(__dirname, 'app/dist'),
     publicPath: '../dist/',
-    filename: 'renderer.prod.js'
+    filename: '[name].entry.prod.js'
   },
 
   module: {
