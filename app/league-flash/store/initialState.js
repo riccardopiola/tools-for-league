@@ -2,20 +2,11 @@ import fs from 'fs';
 import path from 'path';
 
 export default function getInitialState() {
-  const localSettings = fetchLocalSettings();
   return {
     app: {
-      selectedSubApp: 'Home',
-      canChangeSubApp: true,
-      openExitDialog: false
-    },
-    ping: {
-      completed: 0,
-      ping: -1,
-      ready: true
-    },
-    settings: localSettings
-  };
+      home: true
+    }
+  }
 }
 
 function fetchLocalSettings() {

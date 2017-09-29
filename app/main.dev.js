@@ -14,6 +14,7 @@ import { app, BrowserWindow, dialog, ipcMain } from 'electron';
 import MenuBuilder from './menu';
 
 let mainWindow = null;
+let leagueAppWindow = null;
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support'); //eslint-disable-line
@@ -99,25 +100,36 @@ ipcMain.on('launch-league-app', async () => {
     await installExtensions();
   }
 
-  mainWindow = new BrowserWindow({
+  leagueAppWindow = new BrowserWindow({
     show: false,
-    width: 1024,
-    height: 728
+    width: 250,
+    height: 330,
+    frame: false,
+    transparent: true,
+    alwaysOnTop: true,
+    useContentSize: true,
+    skipTaskbar: true,
+    x: 0,
+    y: 0
   });
 
-  mainWindow.loadURL(`file://${__dirname}/league-flash.html`);
+  leagueAppWindow.loadURL(`file://${__dirname}/league-flash.html`);
 
   // @TODO: Use 'ready-to-show' event
   //        https://github.com/electron/electron/blob/master/docs/api/browser-window.md#using-ready-to-show-event
-  mainWindow.webContents.on('did-finish-load', () => {
+  leagueAppWindow.webContents.on('did-finish-load', () => {
     if (!mainWindow) {
-      throw new Error('"mainWindow" is not defined');
+      throw new Error('"leagueAppWindow" is not defined');
     }
-    mainWindow.show();
-    mainWindow.focus();
+    leagueAppWindow.show();
+    leagueAppWindow.focus();
   });
 
-  mainWindow.on('closed', () => {
-    mainWindow = null;
+  leagueAppWindow.on('closed', () => {
+    leagueAppWindow = null;
   });
+});
+
+ipcMain.on('close-league-flash', () => {
+  leagueAppWindow.close();
 });

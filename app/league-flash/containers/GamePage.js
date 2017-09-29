@@ -1,11 +1,11 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import App from '../components/App';
+import Game from '../components/Game';
 import * as AppActions from '../actions/appActions';
 
 function mapStateToProps(state) {
   return {
-    home: state.app.home
+    state
   };
 }
 
@@ -13,4 +13,4 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(AppActions, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(Game);
