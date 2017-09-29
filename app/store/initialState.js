@@ -2,7 +2,12 @@ import fs from 'fs';
 import path from 'path';
 
 export default function getInitialState() {
-  const localSettings = fetchLocalSettings();
+  const AppDataFolder = (process.platform === 'darwin') ?
+    '/Applications/Tools for Lol.app/Contents' :              // Mac path
+    `${process.env.APPDATA}/../Local/Programs/tools-for-lol`; // Win path
+  const dataPath = path.join(AppDataFolder, 'data');
+  initializeFolders(dataPath);
+  const localSettings = fetchLocalSettings(dataPath);
   return {
     app: {
       selectedSubApp: 'Home',
@@ -18,23 +23,27 @@ export default function getInitialState() {
   };
 }
 
-function fetchLocalSettings() {
-  const AppDataFolder = (process.platform === 'darwin') ?
-    '/Applications/Tools for Lol.app/Contents' :           // Mac path
-    `${process.env.APPDATA}/../Local/Programs/tools-for-lol`; // Win path
-  const settingsPath = path.join(AppDataFolder, 'data', 'settings.json');
+function initializeFolders(dataPath) {
+  if (!fs.readdirSync(`${dataPath}/..`).includes('data'))
+    fs.mkdirSync(dataPath);
+  if (!fs.readdirSync(dataPath).includes('temporaryConfigurations'))
+    fs.mkdirSync(`${dataPath}/temporaryConfigurations`);
+  if (!fs.readdirSync(dataPath).includes('savedConfigurations'))
+    fs.mkdirSync(`${dataPath}/savedConfigurations`);
+}
+
+function fetchLocalSettings(dataPath) {
   let settingsJSON;
-  if (fs.readdirSync(AppDataFolder).some(name => name === 'data')) {
-    settingsJSON = JSON.parse(fs.readFileSync(settingsPath, 'utf-8'));
+  if (fs.readdirSync(dataPath).includes('settings.json')) {
+    settingsJSON = JSON.parse(fs.readFileSync(`${dataPath}/settings.json`, 'utf-8'));
   } else {
-    settingsJSON = getDefaultSettings(settingsPath);
-    fs.mkdirSync(`${AppDataFolder}/data`);
-    fs.writeFileSync(settingsPath, JSON.stringify(settingsJSON));
+    settingsJSON = getDefaultSettings(dataPath);
+    fs.writeFileSync(`${dataPath}/settings.json`, JSON.stringify(settingsJSON));
   }
   return settingsJSON;
 }
 
-function getDefaultSettings(settingsPath) {
+function getDefaultSettings(dataPath) {
   let lolFolder;
   if (process.platform === 'darwin') {
     lolFolder = `${process.env.HOME}/Applications/League of Legends.app/Contents/LoL`;
@@ -44,7 +53,7 @@ function getDefaultSettings(settingsPath) {
   return {
     general: {
       lolFolder,
-      settingsPath,
+      dataPath,
       preferredServer: 'EUW'
     }
   };

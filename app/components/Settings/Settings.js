@@ -17,8 +17,7 @@ class Settings extends Component {
     settings: {
       general: {
         lolFolder: string,
-        preferredServer: string,
-        settingsPath: string
+        preferredServer: string
       }
     },
     canChangeSubApp: boolean,

@@ -1,0 +1,24 @@
+.configSwapperContainer {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.AppBar {
+  height: 64px !important;
+}
+
+.buttonsContainer {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.buttons {
+  margin: 10px 15px;
+  width:200px;
+}
+
+.listsContainer {
+  margin: 0 5%;
+}

@@ -5,6 +5,7 @@ import * as pingActions from '../actions/pingActions';
 
 function mapStateToProps(state) {
   return {
+    dataPath: state.settings.general.dataPath
   };
 }
 

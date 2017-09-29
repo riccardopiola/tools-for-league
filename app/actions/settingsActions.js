@@ -8,7 +8,7 @@ export function saveSettings(state: Object) {
     Object.keys(state).forEach(section => {
       Object.assign(newSettings[section], state[section]);
     });
-    fs.writeFile(newSettings.general.settingsPath,
+    fs.writeFile(`${newSettings.general.dataPath}/settings.json`,
       JSON.stringify(newSettings), err => {
         if (err)
           console.error(err);
