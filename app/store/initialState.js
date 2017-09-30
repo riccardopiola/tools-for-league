@@ -19,7 +19,11 @@ export default function getInitialState() {
       ping: -1,
       ready: true
     },
-    settings: localSettings
+    settings: localSettings,
+    config: {
+      savedConfigurations: [],
+      tempConfigurations: []
+    }
   };
 }
 
