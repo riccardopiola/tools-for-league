@@ -1,0 +1,46 @@
+.pingContainer {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+.AppBar {
+    height: 64px !important;
+}
+.durationButtons {
+    display: flex;
+    justify-content: space-between;
+    padding: 50px 20% 0 20%;
+}
+.pingTest {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto 10%;
+}
+.circleButton {
+    border-radius: 50% !important;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10%;
+    background-color: #896c3d;
+    cursor: pointer;
+    color: #ffffff;
+}
+.circleButtonWord {
+    font-size: 40px;
+}
+.footNotes {
+    height: 10%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.footNotesSpan {
+    display: block;
+    padding-left: 5%;
+    font-size: 14px;
+    color: rgba(0,0,0,0,4);
+}

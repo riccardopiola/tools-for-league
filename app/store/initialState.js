@@ -15,9 +15,9 @@ export default function getInitialState() {
       openExitDialog: false
     },
     ping: {
-      completed: 0,
-      ping: -1,
-      ready: true
+      display: 'GO',
+      completed: true,
+      pingsArray: []
     },
     settings: localSettings,
     config: {
@@ -59,6 +59,9 @@ function getDefaultSettings(dataPath) {
       lolFolder,
       dataPath,
       preferredServer: 'EUW'
+    },
+    ping: {
+      interval: '1000'
     }
   };
 }

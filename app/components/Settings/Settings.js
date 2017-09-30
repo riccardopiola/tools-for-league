@@ -7,6 +7,7 @@ import Divider from 'material-ui/Divider';
 import Dialog from 'material-ui/Dialog';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
+import TextField from 'material-ui/TextField';
 import type { Children } from 'react';
 
 import FolderSelection from './FolderSelection';
@@ -18,6 +19,9 @@ class Settings extends Component {
       general: {
         lolFolder: string,
         preferredServer: string
+      },
+      ping: {
+        interval: string
       }
     },
     canChangeSubApp: boolean,
@@ -31,23 +35,38 @@ class Settings extends Component {
     general: {
       lolFolder:string,
       preferredServer: string
+    },
+    ping: {
+      interval: string
     }
   }
   state = {
     general: {
       lolFolder: this.props.settings.general.lolFolder,
       preferredServer: this.props.settings.general.preferredServer
+    },
+    ping: {
+      interval: this.props.settings.ping.interval
     }
   }
+  // General purpoise method to update controlled components
   handleChange = (section: string, title: string, newValue: string | boolean): void => {
     const newSection = Object.assign({}, this.state[section], { [title]: newValue });
     this.setState({ [section]: newSection });
     this.props.changeCanChangeSubApp(false);
   }
   save = () => {
+    if (!this.validateChanges())
+      return;
     this.props.saveSettings(this.state);
     this.props.changeCanChangeSubApp(true);
     this.props.openCloseDialog(false);
+  }
+  validateChanges = (): boolean => {
+    const { ping } = this.state;
+    if (ping.interval === '' || Number.isNaN(Number.parseInt(ping.interval, 10)))
+      return false;
+    return true;
   }
   handleCloseDialog = () => {
     this.props.openCloseDialog(false);
@@ -85,6 +104,17 @@ class Settings extends Component {
               <MenuItem value={'OCE'} primaryText="OCE" />
               <MenuItem value={'LAN'} primaryText="LAN" />
             </DropDownMenu>
+          </div>
+        </SettingsSection>
+        <SettingsSection title="Ping">
+          <div className={styles.singleSettingContainer}>
+            <div className={styles.selectText}>Inteval between pings (milliseconds)</div>
+            <TextField
+              name="pingInterval"
+              className={styles.textFieldNumber}
+              value={this.state.ping.interval}
+              onChange={(e, newValue) => this.handleChange('ping', 'interval', newValue)}
+            />
           </div>
         </SettingsSection>
         <footer className={styles.footer}>

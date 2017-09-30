@@ -5,10 +5,9 @@ import * as pingActions from '../actions/pingActions';
 
 function mapStateToProps(state) {
   return {
-    completed: state.ping.completed,
-    ping: state.ping.ping,
-    ready: state.ping.ready,
-    preferredServer: state.settings.general.preferredServer
+    preferredServer: state.settings.general.preferredServer,
+    display: state.ping.display,
+    completed: state.ping.completed
   };
 }
 

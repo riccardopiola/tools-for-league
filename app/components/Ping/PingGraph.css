@@ -1,0 +1,30 @@
+.contentContainer {
+  flex: 1;
+  margin-top: 20px;
+}
+.graphContainer {
+  width: 90%;
+  height: 80%;
+}
+.graphFooter {
+  margin: 15px 0;
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tooltipContainer {
+  background-color: #ffffff;
+  border: 1px solid rgb(49, 130, 189);
+  padding: 10px;
+}
+
+.tooltipLabel {
+  color:rgb(49, 130, 189);
+  font-weight: bold;
+}
+
+.tooltipDate {
+  font-size: 12px;
+}
