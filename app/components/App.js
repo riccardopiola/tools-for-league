@@ -9,6 +9,11 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 
+import HomeIcon from 'material-ui/svg-icons/action/home';
+import PingIcon from 'material-ui/svg-icons/image/timelapse';
+import SwapIcon from 'material-ui/svg-icons/action/swap-horiz';
+import SettingsIcon from 'material-ui/svg-icons/action/settings';
+
 import type { appStateType } from '../reducers/appReducer';
 import PingPage from '../containers/PingPage';
 import ConfigSwapperPage from '../containers/ConfigSwapperPage';
@@ -45,17 +50,20 @@ export default class App extends Component {
       <div className="app-container">
         <MuiThemeProvider muiTheme={darkTheme}>
           <Paper className="navigation-container" zDepth={4}>
-            <AppBar showMenuIconButton={false} title="League Tools" />
+            <AppBar
+              showMenuIconButton={false}
+              title="League Tools"
+            />
             <Menu
               value={this.props.appState.selectedSubApp}
               selectedMenuItemStyle={selectedStyle}
               menuItemStyle={menuStyle}
               onChange={this.props.changeSubApp}
             >
-              <MenuItem value="Home">Home</MenuItem>
-              <MenuItem value="ConfigSwapper">Config Swapper</MenuItem>
-              <MenuItem value="Ping">Pingtest</MenuItem>
-              <MenuItem value="Settings">Settings</MenuItem>
+              <MenuItem value="Home" leftIcon={<HomeIcon />}>Home</MenuItem>
+              <MenuItem value="Ping" leftIcon={<PingIcon />}>Pingtest</MenuItem>
+              <MenuItem value="ConfigSwapper" leftIcon={<SwapIcon />}>Config Swapper</MenuItem>
+              <MenuItem value="Settings" leftIcon={<SettingsIcon />}>Settings</MenuItem>
             </Menu>
           </Paper>
         </MuiThemeProvider>

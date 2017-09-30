@@ -7,7 +7,8 @@ import styles from './PingGraph.css';
 class PingGraph extends Component {
   props: {
     pingsArray: Array,
-    resetPing: () => void
+    resetPing: () => void,
+    pingInterval: string,
   }
   render() {
     return (
@@ -30,7 +31,7 @@ class PingGraph extends Component {
               <Line
                 type="linear"
                 dataKey="ms"
-                animationDuration={1000}
+                animationDuration={Number.parseInt(this.props.pingInterval, 10)}
               />
             </ComposedChart>
           </ResponsiveContainer>

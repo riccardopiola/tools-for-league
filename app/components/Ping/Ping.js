@@ -42,8 +42,8 @@ class Ping extends Component {
       centerPart = <PingGraphContainer />;
     else {
       const isLoading = (this.props.display === 'LOADING');
-      const backgroundColor = (isLoading) ? 'grey' : '#896c3d';
-      const color = (isLoading) ? '#000000' : '#ffffff';
+      const backgroundColor = (isLoading) ? '#f5f5f5' : '#896c3d';
+      const color = (isLoading) ? 'rgba(0,0,0, 0.6' : '#ffffff';
       const text = (isLoading) ? 'LOADING' : 'GO';
       centerPart = (
         <div className={styles.pingTest}>
