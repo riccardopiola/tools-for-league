@@ -1,12 +1,12 @@
 // @flow
-export const CHANGE_SUBAPP = 'CHANGE_SUBAPP';
 export const CAN_CHANGE_SUBAPP = 'CAN_CHANGE_SUBAPP';
 export const OPEN_CLOSE_DIALOG = 'OPEN_CLOSE_DIALOG';
 
-export function changeSubApp(e: {}, value: string) {
-  return {
-    type: CHANGE_SUBAPP,
-    value
+import { push } from 'react-router-redux'
+
+export function changeRoute(route: string) {
+  return dispatch => {
+    dispatch(push(route));
   };
 }
 

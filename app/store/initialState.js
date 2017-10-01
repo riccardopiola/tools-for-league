@@ -1,6 +1,26 @@
 import fs from 'fs';
 import path from 'path';
 
+import defaultSettings from '../components/Settings/settingsFile';
+
+const initialState = {
+  app: {
+    selectedSubApp: 'Home',
+    canChangeSubApp: true,
+    openExitDialog: false
+  },
+  ping: {
+    display: 'GO',
+    completed: true,
+    pingsArray: []
+  },
+  // settings: fetchLocalSettings(),
+  config: {
+    savedConfigurations: [],
+    tempConfigurations: []
+  }
+};
+
 export default function getInitialState() {
   const AppDataFolder = (process.platform === 'darwin') ?
     '/Applications/Tools for Lol.app/Contents' :              // Mac path
@@ -9,22 +29,9 @@ export default function getInitialState() {
   initializeFolders(dataPath);
   const localSettings = fetchLocalSettings(dataPath);
   return {
-    app: {
-      selectedSubApp: 'Home',
-      canChangeSubApp: true,
-      openExitDialog: false
-    },
-    ping: {
-      display: 'GO',
-      completed: true,
-      pingsArray: []
-    },
-    settings: localSettings,
-    config: {
-      savedConfigurations: [],
-      tempConfigurations: []
-    }
-  };
+    ...initialState,
+    settings: localSettings
+  }
 }
 
 function initializeFolders(dataPath) {
@@ -55,13 +62,10 @@ function getDefaultSettings(dataPath) {
     lolFolder = 'C:/Riot Games/League of Legends';
   }
   return {
+    ...defaultSettings,
     general: {
       lolFolder,
       dataPath,
-      preferredServer: 'EUW'
-    },
-    ping: {
-      interval: '1000'
     }
   };
 }

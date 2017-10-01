@@ -9,62 +9,24 @@ import SettingsContent from './SettingsContent';
 import { validateChanges } from './utils';
 import styles from './Settings.css';
 
+import type { SettingsType } from './settingsFile';
+
 class Settings extends Component {
   props: {
-    settings: {
-      general: {
-        lolFolder: string,
-        preferredServer: string
-      },
-      ping: {
-        interval: string
-      }
-    },
-    canChangeSubApp: boolean,
-    changeCanChangeSubApp: (boolean) => void,
-    changeSubApp: ({ }, string) => void,
+    localSettings: SettingsType,
+    newSettings: SettingsType,
+    changeRoute: (string) => void,
     openCloseDialog: (boolean) => void,
     saveSettings: (Object) => void,
     openExitDialog: boolean
-  }
-  state: {
-    general: {
-      lolFolder: string,
-      preferredServer: string
-    },
-    ping: {
-      interval: string
-    }
-  }
-  state = {
-    general: {
-      lolFolder: this.props.settings.general.lolFolder,
-      preferredServer: this.props.settings.general.preferredServer
-    },
-    ping: {
-      interval: this.props.settings.ping.interval
-    }
-  }
-  // General purpoise method to update controlled components
-  handleChange = (section: string, title: string, newValue: string | boolean): void => {
-    const newSection = Object.assign({}, this.state[section], { [title]: newValue });
-    this.setState({ [section]: newSection });
-    this.props.changeCanChangeSubApp(false);
-  }
-  save = () => {
-    if (!validateChanges(this.state))
-      return;
-    this.props.saveSettings(this.state);
-    this.props.changeCanChangeSubApp(true);
-    this.props.openCloseDialog(false);
-  }
+  };
   handleCloseDialog = () => {
     this.props.openCloseDialog(false);
   }
   handleDiscardChanges = () => {
     this.props.openCloseDialog(false);
     this.props.changeCanChangeSubApp(true);
-    this.props.changeSubApp({}, 'Home');
+    this.props.changeRoute('/');
   }
   render() {
     return (
