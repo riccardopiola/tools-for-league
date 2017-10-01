@@ -83,6 +83,20 @@ app.on('ready', async () => {
 
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu();
+
+  // mainWindow.webContents.enableDeviceEmulation({
+  //   screenPosition: 'mobile',
+  //   screenSize: {
+  //     width: 320,
+  //     height: 500
+  //   },
+  //   scale: 1,
+  //   fitToView: true,
+  //   viewSize: {
+  //     width: 320,
+  //     height: 500
+  //   }
+  // });
 });
 
 ipcMain.on('open-select-directory', event => {
