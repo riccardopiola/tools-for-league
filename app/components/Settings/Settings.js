@@ -1,16 +1,12 @@
 // @flow
 import React, { Component } from 'react';
 import AppBar from 'material-ui/AppBar';
-import DropDownMenu from 'material-ui/DropDownMenu';
-import MenuItem from 'material-ui/MenuItem';
-import Divider from 'material-ui/Divider';
 import Dialog from 'material-ui/Dialog';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
-import TextField from 'material-ui/TextField';
-import type { Children } from 'react';
 
-import FolderSelection from './FolderSelection';
+import SettingsContent from './SettingsContent';
+import { validateChanges } from './utils';
 import styles from './Settings.css';
 
 class Settings extends Component {
@@ -26,14 +22,14 @@ class Settings extends Component {
     },
     canChangeSubApp: boolean,
     changeCanChangeSubApp: (boolean) => void,
-    changeSubApp: ({}, string) => void,
+    changeSubApp: ({ }, string) => void,
     openCloseDialog: (boolean) => void,
     saveSettings: (Object) => void,
     openExitDialog: boolean
   }
   state: {
     general: {
-      lolFolder:string,
+      lolFolder: string,
       preferredServer: string
     },
     ping: {
@@ -56,17 +52,11 @@ class Settings extends Component {
     this.props.changeCanChangeSubApp(false);
   }
   save = () => {
-    if (!this.validateChanges())
+    if (!validateChanges(this.state))
       return;
     this.props.saveSettings(this.state);
     this.props.changeCanChangeSubApp(true);
     this.props.openCloseDialog(false);
-  }
-  validateChanges = (): boolean => {
-    const { ping } = this.state;
-    if (ping.interval === '' || Number.isNaN(Number.parseInt(ping.interval, 10)))
-      return false;
-    return true;
   }
   handleCloseDialog = () => {
     this.props.openCloseDialog(false);
@@ -82,49 +72,19 @@ class Settings extends Component {
         <AppBar
           showMenuIconButton={false}
           title="Settings"
-        />
-        <SettingsSection title="General">
-          <FolderSelection
-            section="general"
-            title="lolFolder"
-            folder={this.state.general.lolFolder}
-            onChange={this.handleChange}
-          />
-          <Divider style={{ margin: '-1px 24px 0px 24px', marginLeft: '24px' }} />
-          <div className={styles.singleSettingContainer}>
-            <div className={styles.selectText}>Preferred server</div>
-            <DropDownMenu
-              value={this.state.general.preferredServer}
-              onChange={(e: Object, i: number, value: string) => this.handleChange('general', 'preferredServer', value)}
-              className={styles.selectMenu}
-            >
-              <MenuItem value={'EUW'} primaryText="EUW" />
-              <MenuItem value={'EUNE'} primaryText="EUNE" />
-              <MenuItem value={'NA'} primaryText="NA" />
-              <MenuItem value={'OCE'} primaryText="OCE" />
-              <MenuItem value={'LAN'} primaryText="LAN" />
-            </DropDownMenu>
-          </div>
-        </SettingsSection>
-        <SettingsSection title="Ping">
-          <div className={styles.singleSettingContainer}>
-            <div className={styles.selectText}>Inteval between pings (milliseconds)</div>
-            <TextField
-              name="pingInterval"
-              className={styles.textFieldNumber}
-              value={this.state.ping.interval}
-              onChange={(e, newValue) => this.handleChange('ping', 'interval', newValue)}
+          iconElementRight={
+            <RaisedButton
+              primary={true}
+              label="SAVE"
+              onClick={this.save}
+              disabled={this.props.canChangeSubApp}
             />
-          </div>
-        </SettingsSection>
-        <footer className={styles.footer}>
-          <RaisedButton
-            primary={true}
-            label="SAVE"
-            onClick={this.save}
-            disabled={this.props.canChangeSubApp}
-          />
-        </footer>
+          }
+        />
+        <SettingsContent
+          handleChange={this.handleChange}
+          {...this.state}
+        />
         <Dialog
           actions={[
             <FlatButton
@@ -153,21 +113,5 @@ class Settings extends Component {
     );
   }
 }
-
-type SettingsSectionProps = {
-  children: Children,
-  title: string
-};
-
-const SettingsSection = (props: SettingsSectionProps) => {
-  return (
-    <div className={styles.settingsSection}>
-      <div className={styles.sectionHeader}>
-        {props.title}
-      </div>
-      {props.children}
-    </div>
-  );
-};
 
 export default Settings;

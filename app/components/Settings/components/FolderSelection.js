@@ -6,7 +6,7 @@ import IconButton from 'material-ui/IconButton';
 import FolderIcon from 'material-ui/svg-icons/file/folder-open';
 import Snackbar from 'material-ui/Snackbar';
 
-import styles from './Settings.css';
+import styles from '../Settings.css';
 
 class FolderSelection extends Component {
   props: {
