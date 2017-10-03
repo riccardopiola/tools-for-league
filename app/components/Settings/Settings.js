@@ -1,79 +1,47 @@
 // @flow
-import React, { Component } from 'react';
-import AppBar from 'material-ui/AppBar';
-import Dialog from 'material-ui/Dialog';
-import RaisedButton from 'material-ui/RaisedButton';
-import FlatButton from 'material-ui/FlatButton';
+import React from 'react';
+import Divider from 'material-ui/Divider';
 
-import SettingsContent from './SettingsContent';
-import { validateChanges } from './utils';
-import styles from './Settings.css';
+import FolderSelection from './API/FolderSelection';
+import SettingsSection from './API/SettingsSection';
+import DropDownSetting from './API/DropDownSetting';
+// import TextFieldSetting from './API/TextFieldSetting';
 
-import type { SettingsType } from './settingsFile';
+import type { SettingsType } from '../../store/initialState';
+import * as validate from './validate';
 
-class Settings extends Component {
-  props: {
-    localSettings: SettingsType,
-    newSettings: SettingsType,
-    changeRoute: (string) => void,
-    openCloseDialog: (boolean) => void,
-    saveSettings: (Object) => void,
-    openExitDialog: boolean
-  };
-  handleCloseDialog = () => {
-    this.props.openCloseDialog(false);
-  }
-  handleDiscardChanges = () => {
-    this.props.openCloseDialog(false);
-    this.props.changeCanChangeSubApp(true);
-    this.props.changeRoute('/');
-  }
-  render() {
-    return (
-      <div className={styles.settingsContainer}>
-        <AppBar
-          showMenuIconButton={false}
-          title="Settings"
-          iconElementRight={
-            <RaisedButton
-              primary={true}
-              label="SAVE"
-              onClick={this.save}
-              disabled={this.props.canChangeSubApp}
-            />
-          }
+type Props = { settings: SettingsType };
+
+const SettingsContent = (props: Props) => {
+  return (
+    <div>
+      <SettingsSection title="General">
+        <FolderSelection
+          paths={['general', 'lolFolder']}
+          value={props.settings.general.lolFolder}
+          validateFunctionAsync={validate.lolFolder}
         />
-        <SettingsContent
-          handleChange={this.handleChange}
-          {...this.state}
+        <Divider style={{ margin: '-1px 24px 0px 24px', marginLeft: '24px' }} />
+        <DropDownSetting
+          message="Preferred region"
+          possibleValues={['EUW', 'EUNE', 'NA', 'OCE', 'LAN']}
+          paths={['general, preferredServer']}
+          value={props.settings.general.preferredServer}
         />
-        <Dialog
-          actions={[
-            <FlatButton
-              label="Cancel"
-              primary={true}
-              onClick={this.handleCloseDialog}
-            />,
-            <FlatButton
-              label="Discard"
-              primary={true}
-              onClick={this.handleDiscardChanges}
-            />,
-            <RaisedButton
-              label="SAVE"
-              primary={true}
-              onClick={this.save}
-            />
-          ]}
-          modal={true}
-          open={this.props.openExitDialog}
-          onRequestClose={this.handleCloseDialog}
-        >
-          Discard changes?
-        </Dialog>
-      </div>
-    );
-  }
-}
+      </SettingsSection>
+    </div>
+  );
+};
 
-export default Settings;
+export default SettingsContent;
+
+/*
+<SettingsSection title="Ping">
+<TextFieldSetting
+  message="Inteval between pings (milliseconds)"
+  name="pingInterval"
+  value={props.ping.interval}
+  validateFunction={}
+/>
+</SettingsSection>
+*/

@@ -1,3 +1,4 @@
+// @flow
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -6,7 +7,8 @@ import * as AppActions from '../actions/appActions';
 
 function mapStateToProps(state) {
   return {
-    appState: state.app
+    appState: state.app,
+    ruoterLocation: state.router.location.pathname
   };
 }
 

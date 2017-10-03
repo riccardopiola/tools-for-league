@@ -1,6 +1,7 @@
+// @flow
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import pingGraph from './pingGraph';
+import PingGraph from './PingGraph';
 import * as pingActions from '../../actions/pingActions';
 
 function mapStateToProps(state) {
@@ -14,4 +15,4 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(pingActions, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(pingGraph);
+export default connect(mapStateToProps, mapDispatchToProps)(PingGraph);

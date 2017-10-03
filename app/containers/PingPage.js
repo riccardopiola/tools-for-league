@@ -1,3 +1,4 @@
+// @flow
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Ping from '../components/Ping/Ping';

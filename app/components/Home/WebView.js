@@ -1,22 +1,27 @@
+// No flow support here because its a mess
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import RaisedButton from 'material-ui/RaisedButton';
 
-class WebView extends Component {
-  props: {
-    webProprieties: {
-      src: string, // The url to go to
-      useragent: 'mobile' | string // useragent, use 'mobile' for shorthand
-    },
-    autoLoadView: boolean, // Wheter to autoload the webview or display a button
-    containerClassName?: string, // classNAme of the <div> container
-    buttonSettings?: { // Settings for the button if autoload=false
-      label: string,
-      labelColor: string,
-      backgroundColor: string
-    },
-    audioMuted?: boolean // Mute the audio
-  }
+type Props = {
+  webProprieties: {
+    src: string, // The url to go to
+    useragent: 'mobile' | string // useragent, use 'mobile' for shorthand
+  },
+  autoLoadView: boolean, // Wheter to autoload the webview or display a button
+  containerClassName?: string, // classNAme of the <div> container
+  buttonSettings?: { // Settings for the button if autoload=false
+    label: string,
+    labelColor: string,
+    backgroundColor: string
+  },
+  audioMuted?: boolean // Mute the audio
+};
+type State = {
+  loaded: boolean
+};
+
+class WebView extends Component<Props, State> {
   defaultProps = {
     containerClassName: '',
     buttonSettings: {

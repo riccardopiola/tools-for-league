@@ -1,49 +1,21 @@
 // @flow
-import { CHANGE_SUBAPP, CAN_CHANGE_SUBAPP, OPEN_CLOSE_DIALOG } from '../actions/appActions';
+import initialState from '../store/initialState';
+import type { Action } from '../actions/Actions.flow';
 
-export type appStateType = {
-  selectedSubApp?: string,
-  canChangeSubApp?: boolean,
-  openExitDialog?: boolean
+export type appState = {
+  +permissionToExit: boolean
 };
 
-type actionType = {
-  type: string,
-  value?: any
-};
-
-export default function app(state: appStateType = {}, action: actionType) {
+function app(state: appState = initialState.app, action: Action): appState {
   switch (action.type) {
-    case CHANGE_SUBAPP: {
-      if (state.canChangeSubApp) {
-        return {
-          ...state,
-          selectedSubApp: action.value
-        };
-      }
+    case 'PERMISSION_TO_EXIT':
       return {
         ...state,
-        openExitDialog: true
-      };
-    }
-    case CAN_CHANGE_SUBAPP: {
-      if (action.value === true) {
-        return {
-          ...state,
-          canChangeSubApp: action.value
-        };
-      }
-      return {
-        ...state,
-        canChangeSubApp: action.value
-      };
-    }
-    case OPEN_CLOSE_DIALOG:
-      return {
-        ...state,
-        openExitDialog: action.value
+        permissionToExit: action.canChange
       };
     default:
       return state;
   }
 }
+
+export default app;

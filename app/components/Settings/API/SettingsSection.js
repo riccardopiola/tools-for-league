@@ -1,9 +1,10 @@
-import React, { Children } from 'react';
+// @flow
+import React from 'react';
 
-import styles from '../Settings.css';
+import styles from './Settings.css';
 
 type Props = {
-  children: Children,
+  children: any,
   title: string
 };
 

@@ -1,11 +1,13 @@
+// @flow
 import fs from 'fs';
 import fse from 'fs-extra';
-
-export const REFRESH_SAVED_CONFIGS = 'REFRESH_SAVED_CONFIGS';
-export const REFRESH_TEMP_CONFIGS = 'REFRESH_TEMP_CONFIGS';
+import {
+  typeof dispatch as Dispatch,
+  typeof getState as GetState
+} from 'redux-thunk';
 
 export function refreshConfigurations() {
-  return (dispatch, getState) => {
+  return (dispatch: Dispatch, getState: GetState) => {
     let savedConfigs = [];
     let tempConfigs = [];
     fs.readdir(`${getState().settings.general.dataPath}/savedConfigurations`, (err, savedArray) => {
@@ -32,7 +34,7 @@ export function refreshConfigurations() {
 }
 
 export function saveConfiguration(name: string) {
-  return (dispatch, getState) => {
+  return (dispatch: Dispatch, getState: GetState) => {
     fse.copy(`${getState().settings.general.lolFolder}/Config/PersistedSettings.json`,
       `${getState().settings.general.dataPath}/savedConfigurations/${name}.json`, (err) => {
         if (err)
@@ -44,7 +46,7 @@ export function saveConfiguration(name: string) {
 }
 
 export function eliminateConfiguration(name: string) {
-  return (dispatch, getState) => {
+  return (dispatch: Dispatch, getState: GetState) => {
     if (!name || name === '')
       return;
     const isSaved = getState().config.savedConfigurations.includes(name);
@@ -58,8 +60,8 @@ export function eliminateConfiguration(name: string) {
   };
 }
 
-export function injectConfiguration(name: string | undefined, temp: boolean, tempName: string) {
-  return (dispatch, getState) => {
+export function injectConfiguration(name: any, temp: boolean, tempName: string) {
+  return (dispatch: Dispatch, getState: GetState) => {
     if (!name || name === '')
       return;
     const isSaved = getState().config.savedConfigurations.includes(name);
@@ -77,5 +79,5 @@ export function injectConfiguration(name: string | undefined, temp: boolean, tem
         else
           dispatch(refreshConfigurations());
       });
-  }
+  };
 }

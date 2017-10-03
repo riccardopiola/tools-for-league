@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from 'react';
 import AppBar from 'material-ui/AppBar';
 // import WebView from './webview/ElectronWebView';
@@ -5,7 +6,9 @@ import WebView from './WebView';
 
 import styles from './Home.css';
 
-class Home extends Component {
+type Props = {};
+
+class Home extends Component<Props> {
   render() {
     return (
       <div className={styles.homeContainer}>

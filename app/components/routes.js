@@ -9,7 +9,7 @@ import SettingsPage from '../containers/SettingsPage';
 
 export default () => (
   <Switch>
-    <Route exact path="/" component={Home} />
+    <Route path="/home" component={Home} />
     <Route path="/config-swapper" component={ConfigSwapperPage} />
     <Route path="/ping" component={PingPage} />
     <Route path="/settings" component={SettingsPage} />

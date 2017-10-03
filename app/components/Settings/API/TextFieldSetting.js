@@ -1,15 +1,17 @@
+// @flow
 import React, { Component } from 'react';
 import TextField from 'material-ui/TextField';
 
 import styles from '../Settings.css';
 
-class DropDownSelection extends Component {
-  props: {
-    handleChange: (string, string, string | boolean) => void, // section, title, newValue
-    value: string,
-    message: string,
-    name: string
-  }
+type Props = {
+  handleChange: (string, string, string | boolean) => void, // section, title, newValue
+  value: string,
+  message: string,
+  name: string
+};
+
+class DropDownSelection extends Component<Props> {
   render() {
     return (
       <div className={styles.singleSettingContainer}>

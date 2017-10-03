@@ -1,20 +1,19 @@
+// @flow
 import ping from 'net-ping';
-
-export const START_PING = 'START_PING';
-export const NEW_PING = 'NEW_PING';
-export const END_PING = 'END_PING';
-export const RESET_PING = 'RESET_PING';
-export const DISPLAY_GRAPH = 'DISPLAY_GRAPH';
+import {
+  typeof dispatch as Dispatch,
+  typeof getState as GetState
+} from 'redux-thunk';
 
 export function startPing() {
   return {
-    type: START_PING
+    type: 'START_PING'
   };
 }
 
 export function resetPing() {
   return {
-    type: RESET_PING
+    type: 'RESET_PING'
   };
 }
 
@@ -26,8 +25,8 @@ const servers = {
   LAN: '104.160.136.3'
 };
 
-export function getPings(max, server) {
-  return (dispatch, getState) => {
+export function getPings(max: number, server: string) {
+  return (dispatch: Dispatch, getState: GetState) => {
     const pingInterval = getState().settings.ping.interval;
     const tries = max / pingInterval;
     pingAsync(server, tries, dispatch, pingInterval);
@@ -52,20 +51,20 @@ async function pingAsync(server, tries, dispatch, pingInterval) {
       const pingObj = await singlePing(session, target, i, pingInterval); // eslint-disable-line
       if (i === 0) continue; //eslint-disable-line
       dispatch({
-        type: NEW_PING,
+        type: 'NEW_PING',
         value: pingObj
       });
     } catch (error) {
       dispatch({
-        type: NEW_PING,
+        type: 'NEW_PING',
         value: { error }
       });
     }
     if (i === 1)
-      dispatch({ type: DISPLAY_GRAPH });
+      dispatch({ type: 'DISPLAY_GRAPH' });
   }
   session.close();
-  dispatch({ type: END_PING });
+  dispatch({ type: 'END_PING' });
 }
 
 function singlePing(session, target, i, pingInterval) {

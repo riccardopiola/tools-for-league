@@ -1,33 +1,29 @@
 // @flow
-import { START_PING, NEW_PING, END_PING, RESET_PING, DISPLAY_GRAPH } from '../actions/pingActions';
+import initialState from '../store/initialState';
+import type { Action } from '../actions/Actions.flow';
 
-export type pingStateType = {
-  display?: 'GO' | 'LOADING' | 'GRAPH',
-  compelted?: boolean,
-  pingsArray?: Array
+export type pingState = {
+  +display: 'GO' | 'LOADING' | 'GRAPH',
+  +completed: boolean,
+  +pingsArray: Array<{ ms: number, index: number, timestamp: number }>
 };
 
-type actionType = {
-  type: string,
-  value?: any
-};
-
-export default function ping(state: pingStateType = {}, action: actionType) {
+function ping(state: pingState = initialState.ping, action: Action): pingState {
   switch (action.type) {
-    case START_PING: {
+    case 'START_PING': {
       return {
         ...state,
         display: 'LOADING',
         completed: false
       };
     }
-    case DISPLAY_GRAPH: {
+    case 'DISPLAY_GRAPH': {
       return {
         ...state,
         display: 'GRAPH'
       };
     }
-    case RESET_PING: {
+    case 'RESET_PING': {
       return {
         ...state,
         display: 'GO',
@@ -35,13 +31,13 @@ export default function ping(state: pingStateType = {}, action: actionType) {
         pingsArray: []
       };
     }
-    case NEW_PING: {
+    case 'NEW_PING': {
       return {
         ...state,
         pingsArray: [...state.pingsArray, action.value]
       };
     }
-    case END_PING: {
+    case 'END_PING': {
       return {
         ...state,
         completed: true
@@ -51,3 +47,5 @@ export default function ping(state: pingStateType = {}, action: actionType) {
       return state;
   }
 }
+
+export default ping;

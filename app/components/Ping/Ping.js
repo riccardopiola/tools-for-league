@@ -10,20 +10,24 @@ import PingGraphContainer from './PingGraphContainer';
 import styles from './Ping.css';
 
 const modeEnum = [6000, 20000, 60000]; // The varius lengths of the pingTests (in ms)
+type Props = {
+  preferredServer: string,
+  display: 'GO' | 'LOADING' | 'GRAPH',
+  startPing: () => void,
+  completed: boolean,
+  getPings: (number, string) => void
+};
+type State = {
+  mode: number,
+  max: number,
+  server: string,
+};
 
-class Ping extends Component {
-  props: {
-    preferredServer: string,
-    display: 'GO' | 'LOADING' | 'GRAPH',
-    startPing: () => void,
-    completed: boolean,
-    getPings: (number) => void
-  }
+class Ping extends Component<Props, State> {
   state = {
     mode: 1,
     max: 20000,
     server: this.props.preferredServer,
-    pingInterval: this.props.pingInterval
   }
   changeMode = (mode: number) => {
     const max = modeEnum[mode];
@@ -33,7 +37,7 @@ class Ping extends Component {
     this.props.startPing();
     this.props.getPings(this.state.max, this.state.server);
   }
-  handleChangeServer = (e: Event, key, value) => {
+  handleChangeServer = (e: Event, key: any, value: string) => {
     this.setState({ server: value });
   }
   render() {

@@ -8,35 +8,35 @@ import TextField from 'material-ui/TextField';
 import { List, ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import Checkbox from 'material-ui/Checkbox';
+import Toggle from 'material-ui/Toggle';
 import ArrowDownwardIcon from 'material-ui/svg-icons/navigation/arrow-downward';
 import AddIcon from 'material-ui/svg-icons/content/add';
 import TrashIcon from 'material-ui/svg-icons/action/delete';
-import Toggle from 'material-ui/Toggle';
 
 import styles from './ConfigSwapper.css';
 
 const buttonStyles = {
   width: '200px',
 };
+type Props = {
+  savedConfigurations: any[],
+  tempConfigurations: any[],
+  refreshConfigurations: () => void,
+  saveConfiguration: (string) => void,
+  eliminateConfiguration: (string) => void,
+  injectConfiguration: (string, boolean, string) => void
+};
+type State = {
+  selectedConfig?: string,
+  saveDialog: boolean,
+  injectDialog: boolean,
+  saveName: string,
+  tempName: string,
+  tempToggle: boolean
+};
 
-class ConfigSwapper extends Component {
-  props: {
-    savedConfigurations: Array,
-    tempConfigurations: Array,
-    refreshConfigurations: () => void,
-    saveConfiguration: (string) => void,
-    eliminateConfiguration: (string) => void,
-    injectConfiguration: (string) => void
-  }
-  state: {
-    selectedConfig?: string,
-    saveDialog: boolean,
-    injectDialog: boolean,
-    saveName: string,
-    tempName: string,
-    tempToggle: boolean
-  }
-  constructor(props) {
+class ConfigSwapper extends Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.props.refreshConfigurations();
     this.state = {
@@ -58,7 +58,7 @@ class ConfigSwapper extends Component {
   closeDialog = (dialogName: 'injectDialog' | 'saveDialog') => {
     this.setState({ [dialogName]: false });
   }
-  handleChangeText = (event, mode: 'temp' | 'save') => {
+  handleChangeText = (event: any, mode: 'temp' | 'save') => {
     this.setState({
       [`${mode}Name`]: event.target.value,
     });
@@ -73,6 +73,10 @@ class ConfigSwapper extends Component {
       this.props.injectConfiguration(this.state.selectedConfig,
         this.state.tempToggle, this.state.tempName);
     this.closeDialog('injectDialog');
+  }
+  handleEliminate = () => {
+    if (this.state.selectedConfig)
+      this.props.eliminateConfiguration(this.state.selectedConfig);
   }
   handleTempToggle = () => {
     this.setState({ tempToggle: !this.state.tempToggle });
@@ -126,7 +130,7 @@ class ConfigSwapper extends Component {
             primary={true}
             buttonStyle={buttonStyles}
             className={styles.buttons}
-            onClick={() => this.props.eliminateConfiguration(this.state.selectedConfig)}
+            onClick={() => this.handleEliminate}
           />
         </div>
         <div className={styles.listsContainer}>

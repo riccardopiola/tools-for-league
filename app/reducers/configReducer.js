@@ -1,24 +1,20 @@
 // @flow
-import { REFRESH_SAVED_CONFIGS, REFRESH_TEMP_CONFIGS } from '../actions/configActions';
+import initialState from '../store/initialState';
+import type { Action } from '../actions/Actions.flow';
 
-export type configStateType = {
-  savedConfigurations?: Array,
-  tempConfigurations?: Array
+export type ConfigState = {
+  +savedConfigurations: [],
+  +tempConfigurations: []
 };
 
-type actionType = {
-  type: string,
-  value?: any
-};
-
-export default function config(state: configStateType = {}, action: actionType) {
+function config(state: ConfigState = initialState.config, action: Action): ConfigState {
   switch (action.type) {
-    case REFRESH_SAVED_CONFIGS:
+    case 'REFRESH_SAVED_CONFIGS':
       return {
         ...state,
         savedConfigurations: action.value
       };
-    case REFRESH_TEMP_CONFIGS:
+    case 'REFRESH_TEMP_CONFIGS':
       return {
         ...state,
         tempConfigurations: action.value
@@ -27,3 +23,5 @@ export default function config(state: configStateType = {}, action: actionType) 
       return state;
   }
 }
+
+export default config;
