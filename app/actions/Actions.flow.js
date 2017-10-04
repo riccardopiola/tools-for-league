@@ -21,10 +21,11 @@ export type Action =
   | { type: 'SETTINGS_SAVED', newSettings: SettingsType }
   | { type: 'SETTING_DISCARD_CHANGE', index: number }
   | { type: 'SETTING_DISCARD_ALL_CHANGES' }
-  | { type: 'OPEN_CLOSE_DIALOG', dialogOpen: boolean }
+  | { type: 'SETTING_OPEN_CLOSE_DIALOG', dialogOpen: boolean }
   | { type: 'INIT_LOCAL_SETTINGS', payload: SettingsType }
 /** APP */
   | { type: 'PERMISSION_TO_EXIT', canChange: boolean }
+  | { type: 'WANNA_GO_TO', path: string }
 /** PING */
   | { type: 'START_PING' }
   | { type: 'DISPLAY_GRAPH' }

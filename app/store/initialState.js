@@ -4,6 +4,7 @@
 export default {
   app: {
     permissionToExit: true,
+    wannaGoTo: '/home'
   },
   ping: {
     display: 'GO',

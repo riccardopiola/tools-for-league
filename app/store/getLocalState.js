@@ -33,14 +33,10 @@ async function getLocalState() {
   const savedConfigs = fse.ensureDir(`${dataPath}/savedConfigurations`);
   await Promise.all([tempConfigs, savedConfigs]);
   // Get the localsettings from the settings.json or create the file with standard settings
-  let localSettings;
-  if (await fse.ensureFile(`${dataPath}/settings.json`))
-    localSettings = await fse.readJson(`${dataPath}/settings.json`);
-  else {
-    localSettings = getDefaultSettings(dataPath);
-    fse.writeJson(`${dataPath}/settings.json`, localSettings);
-  }
-  // Return a promise
+  if (await fse.pathExists(`${dataPath}/settings.json`))
+    return fse.readJson(`${dataPath}/settings.json`);
+  const localSettings = getDefaultSettings(dataPath);
+  fse.writeJson(`${dataPath}/settings.json`, localSettings);
   return localSettings;
 }
 

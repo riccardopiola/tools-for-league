@@ -67,6 +67,7 @@ export default class App extends Component<Props> {
         </MuiThemeProvider>
         <MuiThemeProvider muiTheme={lightTheme}>
           <Paper className="app-space">
+            <div></div>
             {this.props.children}
           </Paper>
         </MuiThemeProvider>

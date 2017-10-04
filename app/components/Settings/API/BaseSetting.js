@@ -3,22 +3,20 @@ import { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { changePermissionToExit } from '../../../../actions/appActions';
-import { handleChange, discardChange } from '../../../../actions/settingsActions';
+import { changePermissionToExit } from '../../../actions/appActions';
+import { handleChange, discardChange } from '../../../actions/settingsActions';
 
 export interface SpecificSetting {
   state: {
-    newValue: string,
-    valid: boolean
+    newValue: string
   }
 }
 export interface SpecificSettingWithValidation {
   state: {
-    newValue: string,
-    valid: boolean
+    newValue: string
   },
   updateValid: (valid: boolean) => any, // this.setState({ valid })
-  handleErrors: (error: Error) => any
+  handleErrors?: (error: Error) => any
 }
 
 function mapStateToProps(state) {
@@ -46,7 +44,6 @@ type BaseProps = {
   validateFunctionSync?: (path: string) => boolean,
   // Coming from parent state
   newValue: string,
-  valid: boolean,
   // Methods from above
   updateValid?: (valid: boolean) => void,
   handleErrors?: (error: Error) => void
@@ -66,47 +63,53 @@ class BaseSetting extends Component<BaseProps, BaseState> {
   state = { stagedChangesIndex: -1 }
   componentWillReceiveProps(nextProps: BaseProps) {
     // Check if it has saved the changes and reset
-    if (this.state.valid === false) {
-      if (this.props.permissionToExit === false && nextProps.permissionToExit === true)
-        this.setState({ stagedChangesIndex: -1 });
+    if (this.props.value !== nextProps.value) {
+      this.setState({ stagedChangesIndex: -1 });
     }
-    // Start the checking machine
-    if (this.props.value === nextProps.newValue) {
-      // Do nothing if its the same value
-      if (this.state.stagedChangesIndex >= -1) {
+    // Start only if componentWillReceiveProps was called because the value in the
+    // parent component has changed
+    if (this.props.newValue !== nextProps.newValue) {
+      // Ignore the change if its the same as the saved one
+      if ((this.props.value === nextProps.newValue) && this.state.stagedChangesIndex > -1) {
+        if (this.props.updateValid)
+          this.props.updateValid(true);
         this.props.discardChange(this.state.stagedChangesIndex);
         this.setState({ stagedChangesIndex: -1 });
+        // else start the process
+      } else if (this.props.newValue !== nextProps.newValue) {
+        if (this.props.value !== nextProps.newValue)
+          this.validate(nextProps.newValue);
       }
-    } else {
-      this.validate(nextProps.newValue);
     }
   }
   validate = (newValue: string) => {
-    try {
-      // Async validation
-      if (this.props.validateFunctionAsync) {
-        this.props.validateFunctionAsync(newValue) //eslint-disable-line
-          .then(() => {
-            this.commit(newValue);
-          });
-        // Sync validation
-      } else if (this.props.validateFunctionSync) {
+    if (this.props.validateFunctionAsync) {
+      this.props.validateFunctionAsync(newValue) //eslint-disable-line
+        .then(() => {
+          this.commit(newValue);
+        })
+        .catch(error => {
+          if (this.props.updateValid)
+            this.props.updateValid(false);
+          else
+            throw new Error('updateValid() is a required prop if you expect validation');
+          if (this.props.handleErrors)
+            this.props.handleErrors(error);
+        });
+    } else if (this.props.validateFunctionSync) {
+      try {
         this.props.validateFunctionSync(newValue);
         this.commit(newValue);
-        // No validation
-      } else {
-        this.commit(newValue);
+      } catch (error) {
+        if (this.props.updateValid)
+          this.props.updateValid(false);
+        else
+          throw new Error('updateValid() is a required prop if you expect validation');
+        if (this.props.handleErrors)
+          this.props.handleErrors(error);
       }
-    } catch (error) {
-      if (this.props.updateValid)
-        this.props.updateValid(false);
-      else
-        throw new Error('updateValid() is a required prop if you expect validation');
-      if (this.props.handleErrors)
-        this.props.handleErrors(error);
-      else
-        throw new Error('handleErrors() is a required prop if you expect validation');
-    }
+    } else
+      this.commit(newValue);
   }
   commit = (newValue: string) => {
     this.setState({ stagedChangesIndex: this.props.stagedChangesLength });

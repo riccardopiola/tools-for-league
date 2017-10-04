@@ -27,7 +27,7 @@ class Ping extends Component<Props, State> {
   state = {
     mode: 1,
     max: 20000,
-    server: this.props.preferredServer,
+    server: this.props.preferredServer
   }
   changeMode = (mode: number) => {
     const max = modeEnum[mode];

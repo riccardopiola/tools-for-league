@@ -8,10 +8,11 @@ import * as settingsActions from '../actions/settingsActions';
 
 function mapStateToProps(state) {
   return {
+    wannaGoTo: state.app.wannaGoTo,
     settings: state.settings.local,
     stagedChanges: state.settings.stagedChanges,
     permissionToExit: state.app.permissionToExit,
-    openExitDialog: state.settings.openExitDialog
+    openExitDialog: state.settings.openExitDialog,
   };
 }
 

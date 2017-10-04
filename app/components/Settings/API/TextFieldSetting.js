@@ -2,16 +2,37 @@
 import React, { Component } from 'react';
 import TextField from 'material-ui/TextField';
 
-import styles from '../Settings.css';
+import BaseSetting from './BaseSetting';
+import type { SpecificSettingWithValidation } from './BaseSetting';
+import styles from './Settings.css';
 
 type Props = {
-  handleChange: (string, string, string | boolean) => void, // section, title, newValue
-  value: string,
   message: string,
-  name: string
+  name: string,
+  // Passing down
+  value: string,
+  paths: string[]
+};
+type State = {
+  newValue: string,
+  errorText: string
 };
 
-class DropDownSelection extends Component<Props> {
+class DropDownSelection extends Component<Props, State> implements SpecificSettingWithValidation {
+  state = {
+    newValue: this.props.value,
+    errorText: ''
+  }
+  updateValid = (valid: boolean) => {
+    if (valid)
+      this.setState({ errorText: '' });
+  }
+  handleErrors = (error: Error) => {
+    this.setState({ errorText: error.message });
+  }
+  onChange = (event: Object, newValue: string) => {
+    this.setState({ newValue });
+  }
   render() {
     return (
       <div className={styles.singleSettingContainer}>
@@ -19,8 +40,16 @@ class DropDownSelection extends Component<Props> {
         <TextField
           name={this.props.name}
           className={styles.textFieldNumber}
-          value={this.props.value}
-          onChange={(e, newValue) => this.props.handleChange('ping', 'interval', newValue)}
+          value={this.state.newValue}
+          onChange={this.onChange}
+          type="number"
+          errorText={this.state.errorText}
+        />
+        <BaseSetting
+          {...this.props}
+          newValue={this.state.newValue}
+          updateValid={this.updateValid}
+          handleErrors={this.handleErrors}
         />
       </div>
     );

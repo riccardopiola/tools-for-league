@@ -17,10 +17,12 @@ type Props = {
   permissionToExit: boolean,
   openExitDialog: boolean,
   stagedChanges: Array<{newValue: string|boolean, paths: string[]}>,
+  wannaGoTo: string,
   // action creators
-  changeRoute: (string) => void,
-  openCloseExitDialog: (boolean) => void,
-  saveSettings: () => void
+  changeRoute: (path: string, withCheck: boolean) => void,
+  openCloseExitDialog: (open: boolean) => void,
+  saveSettings: () => void,
+  changePermissionToExit: (canChange: boolean) => void
 };
 
 /**
@@ -35,7 +37,8 @@ class SettingsWrapper extends Component<Props> {
   }
   handleDiscardChanges = () => {
     this.props.openCloseExitDialog(false);
-    this.props.changeRoute('/');
+    this.props.changeRoute(this.props.wannaGoTo, false);
+    this.props.changePermissionToExit(true);
   }
   render() {
     return (

@@ -18,9 +18,10 @@ export async function lolFolder(path: string) {
   return true;
 }
 // WIP
-export function validateChanges(state):boolean {
-  const ping = state.ping;
-  if (ping.interval === '' || Number.isNaN(Number.parseInt(ping.interval, 10)))
-    return false;
+export function intervalPing(value: string):boolean {
+  if (Number.isNaN(Number.parseInt(value, 10)))
+    throw new Error('Insert a number');
+  if (Number.parseInt(value, 10) < 150)
+    throw new Error('Min 150ms');
   return true;
 }

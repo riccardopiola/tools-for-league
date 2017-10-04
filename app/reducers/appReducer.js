@@ -3,7 +3,8 @@ import initialState from '../store/initialState';
 import type { Action } from '../actions/Actions.flow';
 
 export type AppState = {
-  +permissionToExit: boolean
+  +permissionToExit: boolean,
+  wannaGoTo?: string
 };
 
 function app(state: AppState = initialState.app, action: Action): AppState {
@@ -12,6 +13,11 @@ function app(state: AppState = initialState.app, action: Action): AppState {
       return {
         ...state,
         permissionToExit: action.canChange
+      };
+    case 'WANNA_GO_TO':
+      return {
+        ...state,
+        wannaGoTo: action.path
       };
     default:
       return state;

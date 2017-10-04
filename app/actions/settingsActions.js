@@ -1,5 +1,6 @@
-import fse from 'fs-extra';
+import fs from 'fs';
 import type { Action, Dispatch, GetState } from './Actions.flow';
+import { changePermissionToExit } from './appActions';
 
 /**
  * General purpoise method to update controlled components
@@ -13,7 +14,7 @@ export function handleChange(newValue: string | boolean, paths: string[], index:
   const stagedChange = { newValue, paths };
   // Eventually dispatch the newState
   return {
-    type: 'SETTINGS_CHANGED',
+    type: 'SETTING_CHANGED',
     stagedChange,
     index
   };
@@ -35,24 +36,32 @@ export function discardAllChanges(): Action {
  * Function to save the staged settings changes to the disk
  */
 export function saveSettings() {
-  return async (dispatch: Dispatch, getState: GetState) => {
-    if (getState().app.exitDialogOpen) // Close the dialog if open
-      dispatch({ type: 'OPEN_CLOSE_DIALOG', value: false });
+  return (dispatch: Dispatch, getState: GetState) => {
     const settingsStore = getState().settings;
-    const dataPath = `${settingsStore.general.dataPath}/settings.json`;
-    const oldSettings = await fse.readJson(dataPath);
+    if (settingsStore.exitDialogOpen) // Close the dialog if open
+      dispatch(openCloseExitDialog(false));
     const stagedChanges = settingsStore.stagedChanges;
     const newSettings = stagedChanges.reduce(
-      (obj: Object, change: { newValue: string | boolean, paths: string[] }) => {
+      (obj: Object, change: { newValue: string | boolean, paths: string[] } | typeof undefined) => {
+        if (typeof change === 'undefined')
+          return obj;
         return {
           ...obj,
           [change.paths[0]]: {
+            ...obj[change.paths[0]],
             [change.paths[1]]: change.newValue
           }
         };
-      }, oldSettings);
-    await fse.writeJson(dataPath, newSettings);
-    dispatch({ type: 'SETTINGS_SAVED', newSettings });
+      }, { ...settingsStore.local });
+    console.log(newSettings);
+    fs.writeFile(`${settingsStore.local.general.dataPath}/settings.json`, JSON.stringify(newSettings), err => {
+      if (err)
+        console.error(err);
+      else {
+        dispatch(changePermissionToExit(true));
+        dispatch({ type: 'SETTINGS_SAVED', newSettings });
+      }
+    });
   };
 }
 /**

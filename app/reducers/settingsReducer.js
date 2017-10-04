@@ -5,7 +5,7 @@ import type { Action } from '../actions/Actions.flow';
 
 export type SettingsState = {
   +local: SettingsType | 'loading',
-  +stagedChanges: Array<{ newValue: string | boolean, paths: string[]}>
+  +stagedChanges: Array<{ newValue: string | boolean, paths: string[]} | typeof undefined>
 };
 
 function settings(state: SettingsState = initialState.settings, action: Action): SettingsState {
@@ -30,6 +30,7 @@ function settings(state: SettingsState = initialState.settings, action: Action):
     }
     case 'SETTINGS_SAVED':
       return {
+        ...state,
         local: action.newSettings,
         stagedChanges: []
       };
