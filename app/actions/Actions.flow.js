@@ -1,9 +1,14 @@
 // This file contains all the action types and payloads
 import type { SettingsType } from '../store/initialState';
+import type { StateType } from '../reducers/index';
 
-export type Actions =
+export type Action =
+  | {| type: string, payload?: any |} // Keep just in case
+/** REDUX INIT */
+  | { type: '@@INIT' }
 /** ROUTER */
-  | { type: 'LOCATION_CHANGE', payload: any }
+  | { type: '@@router/LOCATION_CHANGE', payload: any }
+  | { type: '@@router/CALL_HISTORY_METHOD', payload: any }
 /** SETTINGS */
   | {
     type: 'SETTING_CHANGED',
@@ -24,8 +29,17 @@ export type Actions =
   | { type: 'START_PING' }
   | { type: 'DISPLAY_GRAPH' }
   | { type: 'RESET_PING' }
-  | { type: 'NEW_PING', value: Array<{ ms: number, index: number, timestamp: number }>}
+  | { type: 'NEW_PING', value: {
+    ms: number, index: number, timestamp: number
+  } | { error: Error, index: number, timestamp: number }}
   | { type: 'END_PING' }
 /** CONFIG */
   | { type: 'REFRESH_SAVED_CONFIGS' }
-  | { type: 'REFRESH_TEMP_CONFIGS' };
+  | { type: 'REFRESH_TEMP_CONFIGS' }
+;
+
+export type ThunkAction = (dispatch: Dispatch, getState: GetState) => any;
+export type PromiseAction = Promise<Action>;
+
+export type Dispatch = (action: Action | ThunkAction | PromiseAction) => any;
+export type GetState = () => StateType;

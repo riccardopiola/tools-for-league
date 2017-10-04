@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import type { Node } from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import Paper from 'material-ui/Paper';
 import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
@@ -17,7 +17,7 @@ import SwapIcon from 'material-ui/svg-icons/action/swap-horiz';
 import SettingsIcon from 'material-ui/svg-icons/action/settings';
 
 import { darkModifications, lightModifications } from '../themes';
-import styles from './App.css';
+// import styles from './App.css';
 
 const darkTheme = getMuiTheme(darkBaseTheme, darkModifications);
 const lightTheme = getMuiTheme(lightBaseTheme, lightModifications);
@@ -51,16 +51,16 @@ export default class App extends Component<Props> {
               onChange={this.handleChange}
             >
               <MenuItem value="/home" leftIcon={<HomeIcon />}>
-                <Link to="/home" className={styles.link}>Home</Link>
+                Home
               </MenuItem>
               <MenuItem value="/ping" leftIcon={<PingIcon />}>
-                <Link to="/ping" className={styles.link}>Pingtest</Link>
+                Pingtest
               </MenuItem>
               <MenuItem value="/config-swapper" leftIcon={<SwapIcon />}>
-                <Link to="/config-swapper" className={styles.link}>Config Swapper</Link>
+                Config Swapper
               </MenuItem>
               <MenuItem value="/settings" leftIcon={<SettingsIcon />}>
-                <Link to="/settings" className={styles.link}>Settings</Link>
+                Settings
               </MenuItem>
             </Menu>
           </Paper>

@@ -1,17 +1,14 @@
 // @flow
 import ping from 'net-ping';
-import {
-  typeof dispatch as Dispatch,
-  typeof getState as GetState
-} from 'redux-thunk';
+import type { Action, ThunkAction, Dispatch, GetState } from './Actions.flow';
 
-export function startPing() {
+export function startPing(): Action {
   return {
     type: 'START_PING'
   };
 }
 
-export function resetPing() {
+export function resetPing(): Action {
   return {
     type: 'RESET_PING'
   };
@@ -25,9 +22,9 @@ const servers = {
   LAN: '104.160.136.3'
 };
 
-export function getPings(max: number, server: string) {
+export function getPings(max: number, server: string): ThunkAction {
   return (dispatch: Dispatch, getState: GetState) => {
-    const pingInterval = getState().settings.ping.interval;
+    const pingInterval = getState().settings.local.ping.interval;
     const tries = max / pingInterval;
     pingAsync(server, tries, dispatch, pingInterval);
   };
@@ -55,10 +52,13 @@ async function pingAsync(server, tries, dispatch, pingInterval) {
         value: pingObj
       });
     } catch (error) {
-      dispatch({
-        type: 'NEW_PING',
-        value: { error }
-      });
+      if (typeof error === 'object')
+        dispatch({
+          type: 'NEW_PING',
+          value: error
+        });
+      else
+        console.error(error);
     }
     if (i === 1)
       dispatch({ type: 'DISPLAY_GRAPH' });
@@ -72,15 +72,21 @@ function singlePing(session, target, i, pingInterval) {
     const timestamp = Date.now();
     session.pingHost(target, (error, target2, sent, rcvd) => {
       const ms = rcvd - sent;
-      if (error)
-        reject(error);
-      else
-        if (ms > pingInterval)
-          resolve({ ms, index: i, timestamp });
-        else
+      if (error) {
+        if ((Date.now() - timestamp) > pingInterval)
+          reject({ error, index: i, timestamp });
+        else {
           setTimeout(() => {
-            resolve({ ms, index: i, timestamp });
+            reject({ error, index: i, timestamp });
           }, pingInterval - ms);
+        }
+      } else if (ms > pingInterval) {
+        resolve({ ms, index: i, timestamp });
+      } else {
+        setTimeout(() => {
+          resolve({ ms, index: i, timestamp });
+        }, pingInterval - ms);
+      }
     });
   });
 }

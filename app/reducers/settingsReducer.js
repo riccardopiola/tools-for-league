@@ -3,12 +3,12 @@ import initialState from '../store/initialState';
 import type { SettingsType } from '../store/initialState';
 import type { Action } from '../actions/Actions.flow';
 
-export type settingsState = {
+export type SettingsState = {
   +local: SettingsType | 'loading',
   +stagedChanges: Array<{ newValue: string | boolean, paths: string[]}>
 };
 
-function settings(state: settingsState = initialState.settings, action: Action): settingsState {
+function settings(state: SettingsState = initialState.settings, action: Action): SettingsState {
   switch (action.type) {
     case 'INIT_LOCAL_SETTINGS':
       return {

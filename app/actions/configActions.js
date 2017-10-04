@@ -1,16 +1,13 @@
 // @flow
 import fs from 'fs';
 import fse from 'fs-extra';
-import {
-  typeof dispatch as Dispatch,
-  typeof getState as GetState
-} from 'redux-thunk';
+import type { ThunkAction, Dispatch, GetState } from './Actions.flow';
 
-export function refreshConfigurations() {
+export function refreshConfigurations(): ThunkAction {
   return (dispatch: Dispatch, getState: GetState) => {
     let savedConfigs = [];
     let tempConfigs = [];
-    fs.readdir(`${getState().settings.general.dataPath}/savedConfigurations`, (err, savedArray) => {
+    fs.readdir(`${getState().settings.local.general.dataPath}/savedConfigurations`, (err, savedArray) => {
       if (err)
         savedConfigs = [];
       else
@@ -20,7 +17,7 @@ export function refreshConfigurations() {
         value: savedConfigs
       });
     });
-    fs.readdir(`${getState().settings.general.dataPath}/temporaryConfigurations`, (err, tempArray) => {
+    fs.readdir(`${getState().settings.local.general.dataPath}/temporaryConfigurations`, (err, tempArray) => {
       if (err)
         tempConfigs = [];
       else
@@ -33,10 +30,10 @@ export function refreshConfigurations() {
   };
 }
 
-export function saveConfiguration(name: string) {
+export function saveConfiguration(name: string): ThunkAction {
   return (dispatch: Dispatch, getState: GetState) => {
-    fse.copy(`${getState().settings.general.lolFolder}/Config/PersistedSettings.json`,
-      `${getState().settings.general.dataPath}/savedConfigurations/${name}.json`, (err) => {
+    fse.copy(`${getState().settings.local.general.lolFolder}/Config/PersistedSettings.json`,
+      `${getState().settings.local.general.dataPath}/savedConfigurations/${name}.json`, (err) => {
         if (err)
           console.log(err);
         else
@@ -45,13 +42,13 @@ export function saveConfiguration(name: string) {
   };
 }
 
-export function eliminateConfiguration(name: string) {
+export function eliminateConfiguration(name: string): ThunkAction {
   return (dispatch: Dispatch, getState: GetState) => {
     if (!name || name === '')
       return;
     const isSaved = getState().config.savedConfigurations.includes(name);
     const thePath = (isSaved) ? '/savedConfigurations/' : '/temporaryConfigurations/';
-    fse.remove(`${getState().settings.general.dataPath}/${thePath}/${name}.json`, (err) => {
+    fse.remove(`${getState().settings.local.general.dataPath}/${thePath}/${name}.json`, (err) => {
       if (err)
         console.log(err);
       else
@@ -60,18 +57,18 @@ export function eliminateConfiguration(name: string) {
   };
 }
 
-export function injectConfiguration(name: any, temp: boolean, tempName: string) {
+export function injectConfiguration(name: any, temp: boolean, tempName: string): ThunkAction {
   return (dispatch: Dispatch, getState: GetState) => {
     if (!name || name === '')
       return;
     const isSaved = getState().config.savedConfigurations.includes(name);
     const thePath = (isSaved) ? '/savedConfigurations/' : '/temporaryConfigurations/';
     if (temp && tempName !== '') {
-      fse.copySync(`${getState().settings.general.lolFolder}/Config/PersistedSettings.json`,
-        `${getState().settings.general.dataPath}/temporaryConfigurations/${tempName}.json`);
+      fse.copySync(`${getState().settings.local.general.lolFolder}/Config/PersistedSettings.json`,
+        `${getState().settings.local.general.dataPath}/temporaryConfigurations/${tempName}.json`);
     }
     fse.copy(`${getState().settings.general.dataPath}/${thePath}/${name}.json`,
-      `${getState().settings.general.lolFolder}/Config/PersistedSettings.json`, (err) => {
+      `${getState().settings.local.general.lolFolder}/Config/PersistedSettings.json`, (err) => {
         if (err)
           console.log(err);
         else if (!isSaved)

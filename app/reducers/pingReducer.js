@@ -2,13 +2,13 @@
 import initialState from '../store/initialState';
 import type { Action } from '../actions/Actions.flow';
 
-export type pingState = {
+export type PingState = {
   +display: 'GO' | 'LOADING' | 'GRAPH',
   +completed: boolean,
   +pingsArray: Array<{ ms: number, index: number, timestamp: number }>
 };
 
-function ping(state: pingState = initialState.ping, action: Action): pingState {
+function ping(state: PingState = initialState.ping, action: Action): PingState {
   switch (action.type) {
     case 'START_PING': {
       return {

@@ -2,11 +2,11 @@
 import initialState from '../store/initialState';
 import type { Action } from '../actions/Actions.flow';
 
-export type appState = {
+export type AppState = {
   +permissionToExit: boolean
 };
 
-function app(state: appState = initialState.app, action: Action): appState {
+function app(state: AppState = initialState.app, action: Action): AppState {
   switch (action.type) {
     case 'PERMISSION_TO_EXIT':
       return {

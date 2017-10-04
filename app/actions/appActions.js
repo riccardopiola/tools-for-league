@@ -1,21 +1,14 @@
 // @flow
 import { push } from 'react-router-redux';
-import {
-  typeof dispatch as Dispatch,
-  typeof getState as GetState
-} from 'redux-thunk';
 import { openCloseExitDialog } from './settingsActions';
 
-type changePermissionToExitAction = {
-  type: 'PERMISSION_TO_EXIT',
-  canChange: boolean
-};
+import type { Action, ThunkAction, Dispatch, GetState } from './Actions.flow';
 
 /**
  * Simple wrapper to change location alternative to <Link>
  * @param {string} route The URL to go to
  */
-export function changeRoute(route: string) {
+export function changeRoute(route: string): ThunkAction {
   return (dispatch: Dispatch, getState: GetState) => {
     if (!getState().app.permissionToExit) {
       dispatch(openCloseExitDialog(true));
@@ -28,7 +21,7 @@ export function changeRoute(route: string) {
  * Function useful for implementing the "Are you sure you want to exit?"
  * @param {boolean} canChange Can leave the current plugin
  */
-export function changePermissionToExit(canChange: boolean): changePermissionToExitAction {
+export function changePermissionToExit(canChange: boolean): Action {
   return {
     type: 'PERMISSION_TO_EXIT',
     canChange

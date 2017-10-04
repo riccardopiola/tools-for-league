@@ -130,7 +130,7 @@ class ConfigSwapper extends Component<Props, State> {
             primary={true}
             buttonStyle={buttonStyles}
             className={styles.buttons}
-            onClick={() => this.handleEliminate}
+            onClick={this.handleEliminate}
           />
         </div>
         <div className={styles.listsContainer}>

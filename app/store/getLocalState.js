@@ -17,7 +17,7 @@ export default function init() {
       .catch(e => {
         // Have to decide what to do with it
         console.error(e);
-      })
+      });
   };
 }
 

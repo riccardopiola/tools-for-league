@@ -7,7 +7,7 @@ import * as pingActions from '../../actions/pingActions';
 function mapStateToProps(state) {
   return {
     pingsArray: state.ping.pingsArray,
-    pingInterval: state.settings.ping.interval
+    pingInterval: state.settings.local.ping.interval
   };
 }
 

@@ -1,5 +1,5 @@
 // No flow support here because its a mess
-import React, { Component } from 'react';
+import * as React from 'react';
 import ReactDOM from 'react-dom';
 import RaisedButton from 'material-ui/RaisedButton';
 
@@ -17,19 +17,17 @@ type Props = {
   },
   audioMuted?: boolean // Mute the audio
 };
-type State = {
-  loaded: boolean
-};
 
-class WebView extends Component<Props, State> {
-  defaultProps = {
+class WebView extends React.Component<Props> {
+  static defaultProps = {
     containerClassName: '',
     buttonSettings: {
       label: 'LOAD',
       labelColor: '#ffffff',
       backgroundColor: 'rgb(201, 170, 113)'
     },
-    audioMuted: false
+    audioMuted: false,
+    autoLoadView: false
   }
   state = {
     loaded: false

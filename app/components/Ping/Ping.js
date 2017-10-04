@@ -19,9 +19,9 @@ type Props = {
 };
 type State = {
   mode: number,
-  max: number,
-  server: string,
-};
+  max: 20000 | 20000 | 60000,
+  server: string
+}
 
 class Ping extends Component<Props, State> {
   state = {
