@@ -5,7 +5,7 @@ import type { Action } from '../actions/Actions.flow';
 export type PingState = {
   +display: 'GO' | 'LOADING' | 'GRAPH',
   +completed: boolean,
-  +pingsArray: Array<{ ms: number, index: number, timestamp: number }>
+  +pingsArray: Array<{ ms: number, index: number, timestamp: number } | { error: Error, index: number, timestamp: number }>
 };
 
 function ping(state: PingState = initialState.ping, action: Action): PingState {

@@ -32,8 +32,8 @@ class FolderSelection extends Component<Props, State> implements SpecificSetting
   }
   requestOpenFolderDialog = () => {
     ipcRenderer.send('open-select-directory');
-    ipcRenderer.on('folder-selected', (event: Object, dirPathArr: string[]) => {
-      if (dirPathArr[0].length > 1) // If the user selected a folder
+    ipcRenderer.on('folder-selected', (event: Object, dirPathArr: string[] | null) => {
+      if (Array.isArray(dirPathArr)) // If the user selected a folder
         this.setState({ newValue: dirPathArr[0] });
       else // if the user quit or didnt select any folder
         console.error('Select a folder, please');

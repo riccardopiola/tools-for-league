@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import FlatButton from 'material-ui/FlatButton';
-import { ResponsiveContainer, ComposedChart, Line, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
+import { ResponsiveContainer, ComposedChart, Line, Area, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 
 import styles from './PingGraph.css';
 
@@ -36,6 +36,11 @@ class PingGraph extends Component<Props> {
                 dataKey="ms"
                 animationDuration={Number.parseInt(this.props.pingInterval, 10)}
               />
+              <Area
+                type="linear"
+                dataKey="ms"
+                animationDuration={Number.parseInt(this.props.pingInterval, 10)}
+              />
             </ComposedChart>
           </ResponsiveContainer>
         </div>
@@ -60,6 +65,8 @@ type TooltipProps = {
 const CustomTooltip = (props: TooltipProps) => {
   const { data, label, active } = props;
   if (typeof label === 'undefined' || !active)
+    return null;
+  if (data[label - 1].error)
     return null;
   const ms = data[label - 1].ms;
   const date = new Date(data[label - 1].timestamp);

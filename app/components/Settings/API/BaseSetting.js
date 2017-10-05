@@ -70,9 +70,11 @@ class BaseSetting extends Component<BaseProps, BaseState> {
     // parent component has changed
     if (this.props.newValue !== nextProps.newValue) {
       // Ignore the change if its the same as the saved one
+      // Update valid
+      if (this.props.updateValid && this.props.value === nextProps.value)
+        this.props.updateValid(true);
+      // Discard staged changes if there are any
       if ((this.props.value === nextProps.newValue) && this.state.stagedChangesIndex > -1) {
-        if (this.props.updateValid)
-          this.props.updateValid(true);
         this.props.discardChange(this.state.stagedChangesIndex);
         this.setState({ stagedChangesIndex: -1 });
         // else start the process
