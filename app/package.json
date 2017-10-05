@@ -1,7 +1,7 @@
 {
   "name": "tools-for-lol",
   "productName": "Tools for Lol",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A simple app with useful tools for League of Legends",
   "main": "./main.prod.js",
   "author": {
