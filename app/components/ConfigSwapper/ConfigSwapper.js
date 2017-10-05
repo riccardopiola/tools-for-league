@@ -66,12 +66,14 @@ class ConfigSwapper extends Component<Props, State> {
   handleSave = () => {
     if (this.state.saveName && this.state.saveName !== '')
       this.props.saveConfiguration(this.state.saveName);
+    this.setState({ saveName: '' })
     this.closeDialog('saveDialog');
   }
   handleInject = () => {
     if (this.state.selectedConfig)
       this.props.injectConfiguration(this.state.selectedConfig,
         this.state.tempToggle, this.state.tempName);
+    this.setState({ tempName: '' });
     this.closeDialog('injectDialog');
   }
   handleEliminate = () => {

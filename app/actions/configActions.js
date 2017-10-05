@@ -67,7 +67,7 @@ export function injectConfiguration(name: any, temp: boolean, tempName: string):
       fse.copySync(`${getState().settings.local.general.lolFolder}/Config/PersistedSettings.json`,
         `${getState().settings.local.general.dataPath}/temporaryConfigurations/${tempName}.json`);
     }
-    fse.copy(`${getState().settings.general.dataPath}/${thePath}/${name}.json`,
+    fse.copy(`${getState().settings.local.general.dataPath}/${thePath}/${name}.json`,
       `${getState().settings.local.general.lolFolder}/Config/PersistedSettings.json`, (err) => {
         if (err)
           console.log(err);
