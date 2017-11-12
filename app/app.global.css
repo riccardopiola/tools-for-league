@@ -14,3 +14,11 @@ body {
 .app-space {
   width: 100%;
 }
+.link {
+  display: block;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+  color: inherit;
+  padding: 0;
+}

@@ -1,3 +1,4 @@
+// @flow
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Ping from '../components/Ping/Ping';
@@ -5,10 +6,9 @@ import * as pingActions from '../actions/pingActions';
 
 function mapStateToProps(state) {
   return {
-    completed: state.ping.completed,
-    ping: state.ping.ping,
-    ready: state.ping.ready,
-    preferredServer: state.settings.general.preferredServer
+    preferredServer: state.settings.local.general.preferredServer,
+    display: state.ping.display,
+    completed: state.ping.completed
   };
 }
 

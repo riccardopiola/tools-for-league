@@ -17,19 +17,20 @@ let mainWindow = null;
 let leagueAppWindow = null;
 
 if (process.env.NODE_ENV === 'production') {
-  const sourceMapSupport = require('source-map-support'); //eslint-disable-line
+  const sourceMapSupport = require('source-map-support'); // eslint-disable-line
   sourceMapSupport.install();
 }
 
 if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
-  require('electron-debug')();
-  const path = require('path'); //eslint-disable-line
+  require('electron-debug')(); // eslint-disable-line
+  const path = require('path'); // eslint-disable-line
   const p = path.join(__dirname, '..', 'app', 'node_modules');
-  require('module').globalPaths.push(p); //eslint-disable-line
+  // $FlowFixMe
+  require('module').globalPaths.push(p); // eslint-disable-line
 }
 
 const installExtensions = async () => {
-  const installer = require('electron-devtools-installer');
+  const installer = require('electron-devtools-installer'); // eslint-disable-line
   const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
   const extensions = [
     'REACT_DEVELOPER_TOOLS',
@@ -84,6 +85,20 @@ app.on('ready', async () => {
 
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu();
+
+  // mainWindow.webContents.enableDeviceEmulation({
+  //   screenPosition: 'mobile',
+  //   screenSize: {
+  //     width: 320,
+  //     height: 500
+  //   },
+  //   scale: 1,
+  //   fitToView: true,
+  //   viewSize: {
+  //     width: 320,
+  //     height: 500
+  //   }
+  // });
 });
 
 ipcMain.on('open-select-directory', event => {

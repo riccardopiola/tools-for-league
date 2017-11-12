@@ -11,11 +11,12 @@
   },
   "rules": {
     "curly": "off",
+    "max-len": 1,
     "arrow-parens": ["off"],
     "compat/compat": "error",
     "consistent-return": "off",
     "comma-dangle": "off",
-    "flowtype-errors/show-errors": 0,
+    "flowtype-errors/show-errors": "error",
     "generator-star-spacing": "off",
     "import/no-unresolved": "error",
     "import/no-extraneous-dependencies": "off",
@@ -23,7 +24,7 @@
     "no-use-before-define": "off",
     "no-multi-assign": "off",
     "promise/param-names": "error",
-    "promise/always-return": "error",
+    "promise/always-return": "off",
     "promise/catch-or-return": "error",
     "promise/no-native": "off",
     "react/sort-comp": ["error", {
@@ -34,7 +35,10 @@
     "react/prefer-stateless-function": "off",
     "react/no-unused-prop-types": "off",
     "react/jsx-boolean-value": "off",
-    "arrow-body-style": "off"
+    "arrow-body-style": "off",
+    "react/no-array-index-key": "off",
+    // Disable becasue flow
+    "react/prop-types": "off"
   },
   "plugins": [
     "flowtype",
@@ -49,6 +53,9 @@
       "webpack": {
         "config": "webpack.config.eslint.js"
       }
+    },
+    "react": {
+      "flowVersion": "0.53"
     }
   }
 }

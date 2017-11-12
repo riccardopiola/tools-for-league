@@ -1,51 +1,44 @@
-import fs from 'fs';
-import path from 'path';
+// @flow
 
-export default function getInitialState() {
-  const localSettings = fetchLocalSettings();
-  return {
-    app: {
-      selectedSubApp: 'Home',
-      canChangeSubApp: true,
-      openExitDialog: false
-    },
-    ping: {
-      completed: 0,
-      ping: -1,
-      ready: true
-    },
-    settings: localSettings
-  };
-}
-
-function fetchLocalSettings() {
-  const AppDataFolder = (process.platform === 'darwin') ?
-    '/Applications/Tools for Lol.app/Contents' :           // Mac path
-    `${process.env.APPDATA}/../Local/Programs/tools-for-lol`; // Win path
-  const settingsPath = path.join(AppDataFolder, 'data', 'settings.json');
-  let settingsJSON;
-  if (fs.readdirSync(AppDataFolder).some(name => name === 'data')) {
-    settingsJSON = JSON.parse(fs.readFileSync(settingsPath, 'utf-8'));
-  } else {
-    settingsJSON = getDefaultSettings(settingsPath);
-    fs.mkdirSync(`${AppDataFolder}/data`);
-    fs.writeFileSync(settingsPath, JSON.stringify(settingsJSON));
+// Initial Redux store
+export default {
+  app: {
+    permissionToExit: true,
+    wannaGoTo: '/home'
+  },
+  ping: {
+    display: 'GO',
+    completed: true,
+    pingsArray: []
+  },
+  settings: {
+    local: 'loading', // fetching from disk happens asyncronously will be 'SettingsType'
+    stagedChanges: [],
+    openExitDialog: false
+  },
+  config: {
+    savedConfigurations: [],
+    tempConfigurations: []
   }
-  return settingsJSON;
-}
+};
 
-function getDefaultSettings(settingsPath) {
-  let lolFolder;
-  if (process.platform === 'darwin') {
-    lolFolder = `${process.env.HOME}/Applications/League of Legends.app/Contents/LoL`;
-  } else {
-    lolFolder = 'C:/Riot Games/League of Legends';
+export type SettingsType = {
+  general: {
+    lolFolder: string,
+    dataPath: string,
+    preferredServer: 'EUW' | 'EUNE' | 'NA' | 'OCE' | 'LAN'
+  },
+  ping: {
+    interval: string, // Has to be parsed into INT
   }
-  return {
-    general: {
-      lolFolder,
-      settingsPath,
-      preferredServer: 'EUW'
-    }
-  };
-}
+};
+
+export const defaultLocalSettings = {
+  general: {
+    // 2 path settings
+    preferredServer: 'EUW'
+  },
+  ping: {
+    interval: '1000'
+  }
+};

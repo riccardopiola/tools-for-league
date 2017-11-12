@@ -1,5 +1,7 @@
 // @flow
 import React, { Component } from 'react';
+import type { Node } from 'react';
+// import { Link } from 'react-router-dom';
 import Paper from 'material-ui/Paper';
 import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
@@ -9,12 +11,13 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 
-import type { appStateType } from '../reducers/appReducer';
-import PingPage from '../containers/PingPage';
-import ConfigSwapperPage from '../containers/ConfigSwapperPage';
-import Home from './Home/Home';
-import SettingsPage from '../containers/SettingsPage';
+import HomeIcon from 'material-ui/svg-icons/action/home';
+import PingIcon from 'material-ui/svg-icons/image/timelapse';
+import SwapIcon from 'material-ui/svg-icons/action/swap-horiz';
+import SettingsIcon from 'material-ui/svg-icons/action/settings';
+
 import { darkModifications, lightModifications } from '../themes';
+// import styles from './App.css';
 
 const darkTheme = getMuiTheme(darkBaseTheme, darkModifications);
 const lightTheme = getMuiTheme(lightBaseTheme, lightModifications);
@@ -22,46 +25,50 @@ const lightTheme = getMuiTheme(lightBaseTheme, lightModifications);
 const selectedStyle = { backgroundColor: 'rgba(0,0,0,0.4)' };
 const menuStyle = { width: '250px', fontSize: '17px' };
 
-export default class App extends Component {
-  props: {
-    changeSubApp: ({ }, string) => void,
-    appState: appStateType
-  };
-  renderSubApp() {
-    switch (this.props.appState.selectedSubApp) {
-      case 'Ping':
-        return <PingPage />;
-      case 'ConfigSwapper':
-        return <ConfigSwapperPage />;
-      case 'Settings':
-        return <SettingsPage />;
-      default:
-        return <Home />;
-    }
+type Props = {
+  children: Node,
+  changeRoute: (string) => void,
+  routerLocation: string
+}
+
+export default class App extends Component<Props> {
+  handleChange = (event: Object, value: string) => {
+    this.props.changeRoute(value);
   }
   render() {
-    const subApp = this.renderSubApp();
     return (
       <div className="app-container">
         <MuiThemeProvider muiTheme={darkTheme}>
           <Paper className="navigation-container" zDepth={4}>
-            <AppBar showMenuIconButton={false} title="League Tools" />
+            <AppBar
+              showMenuIconButton={false}
+              title="League Tools"
+            />
             <Menu
-              value={this.props.appState.selectedSubApp}
+              value={this.props.routerLocation}
               selectedMenuItemStyle={selectedStyle}
               menuItemStyle={menuStyle}
-              onChange={this.props.changeSubApp}
+              onChange={this.handleChange}
             >
-              <MenuItem value="Home">Home</MenuItem>
-              <MenuItem value="ConfigSwapper">Config Swapper</MenuItem>
-              <MenuItem value="Ping">Pingtest</MenuItem>
-              <MenuItem value="Settings">Settings</MenuItem>
+              <MenuItem value="/home" leftIcon={<HomeIcon />}>
+                Home
+              </MenuItem>
+              <MenuItem value="/ping" leftIcon={<PingIcon />}>
+                Pingtest
+              </MenuItem>
+              <MenuItem value="/config-swapper" leftIcon={<SwapIcon />}>
+                Config Swapper
+              </MenuItem>
+              <MenuItem value="/settings" leftIcon={<SettingsIcon />}>
+                Settings
+              </MenuItem>
             </Menu>
           </Paper>
         </MuiThemeProvider>
         <MuiThemeProvider muiTheme={lightTheme}>
           <Paper className="app-space">
-            {subApp}
+            <div></div>
+            {this.props.children}
           </Paper>
         </MuiThemeProvider>
       </div>

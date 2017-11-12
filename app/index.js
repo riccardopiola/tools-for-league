@@ -3,12 +3,13 @@ import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 
 import { configureStore, history } from './store/configureStore';
-import getInitialState from './store/initialState';
+import initialState from './store/initialState';
+import getLocalState from './store/getLocalState';
 import Root from './containers/Root';
 import './app.global.css';
 
-const store = configureStore(getInitialState());
-
+const store = configureStore(initialState);
+store.dispatch(getLocalState());
 
 render(
   <AppContainer>
