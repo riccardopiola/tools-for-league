@@ -27,8 +27,6 @@ ipcMain.on('enter-game-mode', () => {
     width: 200,
     height: 300
   });
-  if (process.platform === 'win32')
-    leagueAppWindow.setFocusable(false);
 });
 ipcMain.on('leave-game-mode', () => {
   leagueAppWindow.setBounds({
@@ -37,8 +35,13 @@ ipcMain.on('leave-game-mode', () => {
     width: 250,
     height: 150
   });
-  if (process.platform === 'win32')
-    leagueAppWindow.setFocusable(true);
+  leagueAppWindow.setIgnoreMouseEvents(false);
+});
+ipcMain.on('set-focusable', (e, focus: 'focus'|'drop-focus') => {
+  if (focus === 'focus')
+    leagueAppWindow.setIgnoreMouseEvents(false);
+  else
+    leagueAppWindow.setIgnoreMouseEvents(true);
 });
 
 /* SCRAPER WINDOW */
@@ -89,15 +92,8 @@ ipcMain.on('open-editor-window', (e, settings) => {
   editorWin.once('closed', () => {
     leagueAppWindow = null;
   });
-  const menu = Menu.buildFromTemplate([
-    { label: 'App' },
-    {
-      label: 'Zoom',
-      submenu: [
-        { role: 'zoomin' },
-        { role: 'zoomout' }
-      ]
-    }
-  ]);
-  Menu.setApplicationMenu(menu);
+});
+
+ipcMain.on('mapping-done', () => {
+  editorWin.close();
 });

@@ -23,12 +23,22 @@ type Props = {
 export default class App extends Component<Props> {
   interval: any
   componentWillReceiveProps(nextProps: Props) {
-    if (Object.keys(nextProps.timers).length === 0)
-      return;
-    else if (this.interval)
-      return;
-    this.props.timerTick();
-    this.interval = setInterval(this.props.timerTick, 1000);
+    // Check if we have to do something with the interval
+    const hasActiveTimers = Object.keys(nextProps.timers).some(username => {
+      if (nextProps.timers[username].size === 0)
+        return false;
+      return true;
+    });
+    if (!hasActiveTimers && this.interval) {
+      // If there are no timers active but the interval is going: terminate it
+      clearInterval(this.interval);
+      this.interval = null;
+    } else if (hasActiveTimers && !this.interval) {
+      // If there are timers active and there is no interval: start it
+      this.interval = setInterval(this.props.timerTick, 1000);
+      this.props.timerTick();
+    }
+    // else if there are/aren't timers and the interval is going/not going do nothing
   }
   componentWillUnmount() {
     clearInterval(this.interval);
@@ -53,7 +63,7 @@ export default class App extends Component<Props> {
       <div className={styles.gameContainer}>
         <div className="buttons-container">
           <Button
-            onClick={this.props.toggleEnableClick}
+            onClick={() => this.props.toggleEnableClick(!this.props.clickEnabled)}
             classesArray={[styles.inputActionBtn]}
             active={this.props.clickEnabled}
           >

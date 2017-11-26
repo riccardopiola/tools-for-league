@@ -109,19 +109,19 @@ export default class Editor extends Component<Props, State> {
           <RaisedButton
             primary
             label="FINISHED"
-            onClick={this.setState({ exitDialog: true })}
+            onClick={() => this.setState({ exitDialog: true })}
           />
         </div>
         <Dialog
           title="Save the current settings?"
           modal={false}
           open={this.state.exitDialog}
-          onRequestClose={this.setState({ exitDialog: false })}
+          onRequestClose={() => this.setState({ exitDialog: false })}
           autoScrollBodyContent={true}
           actions={[
             <RaisedButton
               label="Cancel"
-              onClick={this.setState({ exitDialog: false })}
+              onClick={() => this.setState({ exitDialog: false })}
             />,
             <RaisedButton
               primary

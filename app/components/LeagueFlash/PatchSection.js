@@ -9,6 +9,7 @@ import styles from './LeagueFlash.css';
 
 type Props = {
   currentPatch: string,
+  dataPath: string,
   handleChange: (newValue: string | boolean, paths: string[], index: number) => void,
   saveSettings: () => void
 };
@@ -68,7 +69,7 @@ class PatchSection extends Component<Props, State> {
         status: 'updating',
         message: 'Updating the app'
       });
-      cacheResources(this.state.fetchedPatch)
+      cacheResources(this.state.fetchedPatch, this.props.dataPath)
         .then(() => {
           this.props.handleChange(
             this.state.fetchedPatch,
@@ -126,7 +127,8 @@ class PatchSection extends Component<Props, State> {
 
 export default connect(
   (state) => ({
-    currentPatch: state.settings.local.leagueFlash.currentPatch
+    currentPatch: state.settings.local.leagueFlash.currentPatch,
+    dataPath: state.settings.local.general.dataPath
   }),
   { ...SettingsActions }
 )(PatchSection);

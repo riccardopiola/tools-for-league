@@ -1,10 +1,9 @@
 // @flow
 import fse from 'fs-extra';
 import type { GameData } from '../reducers/dataReducer';
-import { getPathToResources } from '../utils/utils';
 
-export default async function composeChampionsArray(gameData: GameData, currentPatch: string) {
-  const baseURI = `${getPathToResources()}/ddragon/${currentPatch}`;
+async function composeChampionsArray(gameData: GameData, currentPatch: string, dataPath: string) {
+  const baseURI = `${dataPath}/ddragon/${currentPatch}`;
   const championsData = await fse.readJson(`${baseURI}/champion.json`);
   const spellsData = await fse.readJson(`${baseURI}/spells.json`);
   const spellsColorData = await fse.readJson(`${baseURI}/spellsColors.json`);
@@ -48,3 +47,4 @@ function getSpellColor(spellColorData, spellName: string) {
   return spellColorData.DEFAULT;
 }
 
+export default composeChampionsArray;

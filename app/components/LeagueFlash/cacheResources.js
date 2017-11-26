@@ -1,7 +1,7 @@
 // @flow
 import fse from 'fs-extra';
 
-export default function cacheResources(patch: string): Promise<*> {
+export default function cacheResources(patch: string, dataPath: string) : Promise<*> {
   const championsData = fetchDDragon(
     'champion',
     `http://ddragon.leagueoflegends.com/cdn/${patch}/data/en_US/champion.json`);
@@ -18,7 +18,7 @@ export default function cacheResources(patch: string): Promise<*> {
     })
     .then(arr => {
       return Promise.all(arr.map(file => {
-        return saveData(file.name, file.data, patch);
+        return saveData(file.name, file.data, patch, dataPath);
       }));
     });
 }
@@ -89,6 +89,9 @@ function fetchContent(fileName: string, url: string) {
     });
 }
 
-function saveData(fileName: string, data: Object, patch: string) {
-  return fse.writeJson(`${process.cwd()}/resources/ddragon/${patch}/${fileName}.json`, data);
+function saveData(fileName: string, data: Object, patch: string, dataPath: string) {
+  return fse.ensureDir(`${dataPath}/ddragon/${patch}`)
+    .then(() => {
+      return fse.writeJson(`${dataPath}/ddragon/${patch}/${fileName}.json`, data);
+    });
 }

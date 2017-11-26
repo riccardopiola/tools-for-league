@@ -1,4 +1,5 @@
 // @flow
+import { ipcRenderer } from 'electron';
 import type { SpellType, ActiveChampionObj } from '../reducers/gameReducer';
 import type { SpellsEnum } from '../reducers/timerReducer';
 
@@ -9,9 +10,10 @@ export function initiateActiveChampionsArray(activeChampions: ActiveChampionObj[
   };
 }
 
-export function toggleEnableClick() {
+export function toggleEnableClick(isEnabled) {
+  ipcRenderer.send('set-focusable', (isEnabled) ? 'focus' : 'drop-focus');
   return {
-    type: 'TOGGLE_ENABLE_CLICK'
+    type: 'TOGGLE_ENABLE_CLICK',
   };
 }
 

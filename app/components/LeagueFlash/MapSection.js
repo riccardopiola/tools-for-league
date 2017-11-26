@@ -9,7 +9,8 @@ import type { SelectorsStore } from '../../editor/types';
 import styles from './LeagueFlash.css';
 
 type Props = {
-  dataPath: string
+  dataPath: string,
+  onNowHasMapping: () => void
 }
 type State = {
   selectedFile?: string,
@@ -29,10 +30,6 @@ export default class MapSection extends Component<Props, State> {
       else // if the user quit or didnt select any folder
         console.error('Select a folder, please');
     });
-    ipcRenderer.once('mapping-done', (e, selectorsStr: string) => {
-      const selectors = JSON.parse(selectorsStr);
-      fse.writeJson(`${this.props.dataPath}/selectors.json`, selectors);
-    });
   }
   launchEditor = () => {
     getImageSize(this.state.selectedFile)
@@ -49,6 +46,11 @@ export default class MapSection extends Component<Props, State> {
         ipcRenderer.send('open-editor-window', JSON.stringify(settingsToTransmit));
       })
       .catch(e => console.error(e));
+    ipcRenderer.once('mapping-done', (e, selectorsStr: string) => {
+      const selectors = JSON.parse(selectorsStr);
+      fse.writeJson(`${this.props.dataPath}/mapping.json`, selectors);
+      this.props.onNowHasMapping();
+    });
   }
   render() {
     return (

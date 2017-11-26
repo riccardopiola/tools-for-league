@@ -11,7 +11,8 @@ type Props = {
     username: string,
     preferredServer: string,
     showBrowserWindow: boolean,
-    currentPatch: string
+    currentPatch: string,
+    dataPath: string
   },
   progressbar: {
     progress: number,
@@ -56,7 +57,7 @@ export default class Loading extends Component<Props> {
     });
   }
   processData = (gameData: any) => {
-    composeChampionsArray(gameData, this.props.settings.currentPatch)
+    composeChampionsArray(gameData, this.props.settings.currentPatch, this.props.settings.dataPath)
       .then(activeChampions => {
         this.props.initiateActiveChampionsArray(activeChampions);
         this.props.initiateTimers(activeChampions);

@@ -1,4 +1,4 @@
-import { BrowserWindow } from 'electron';
+import { BrowserWindow, Menu } from 'electron';
 
 type LeagueAppSettings = {
 
@@ -29,6 +29,7 @@ export function createLeagueAppWin(settings: LeagueAppSettings) {
     win.show();
     win.focus();
     win.webContents.send('settings', JSON.stringify(settings));
+    win.webContents.openDevTools();
   });
   return win;
 }
@@ -85,6 +86,30 @@ export function createEditorWindow(settings: string) {
     win.focus();
     win.webContents.send('settings', settings);
   });
+  const template = [
+    {
+      label: 'File',
+      submenu: [
+        { role: 'togglefullscreen' },
+        { role: 'minimize' },
+        { role: 'close' },
+        { role: 'quit' }
+      ]
+    },
+    { role: 'editMenu' },
+    {
+      label: 'Zoom',
+      submenu: [
+        { role: 'resetzoom' },
+        { role: 'zoomin' },
+        { role: 'zoomout' }
+      ]
+    }
+  ];
+  if (process.env.NODE_ENV === 'development')
+    template[0].submenu.push({ role: 'toggledevtools' });
+  const menu = Menu.buildFromTemplate(template);
+  Menu.setApplicationMenu(menu);
 
   return win;
 }

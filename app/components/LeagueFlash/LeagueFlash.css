@@ -22,9 +22,20 @@
   margin: 20px;
   padding: 20px;
 }
+/* WARNINGSECTION */
+.warningContainer {
+  display: flex;
+  align-items: center;
+  background-color: rgb(233, 233, 4);
+  border-bottom: 1px solid black;
+}
+.warningContainer > p{
+  margin: 10px;
+  font-size: 14px;
+}
 /* PATCHSECTION */
 .patchSection {
-  
+
 }
 .patchSection > h4 {
   font-size: 18px;
