@@ -1,13 +1,27 @@
-import { appActionsTypes } from '../actions/appActions';
+// @flow
+import type { Action } from '../actions/Actions.flow';
 
-export default function appReducer(state = {}, action) {
+const defaultState = {
+  route: '/',
+  message: ''
+};
+
+function appReducer(state: {} = defaultState, action: Action) {
   switch (action.type) {
-    case appActionsTypes.SHOW_HOME:
+    case 'CHANGE_ROUTE':
       return {
         ...state,
-        home: action.value
+        route: action.route,
+        message: action.message
+      };
+    case 'CHANGE_SETTINGS':
+      return {
+        ...state,
+        settings: action.payload
       };
     default:
       return state;
   }
 }
+
+export default appReducer;

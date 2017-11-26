@@ -15,6 +15,7 @@ import HomeIcon from 'material-ui/svg-icons/action/home';
 import PingIcon from 'material-ui/svg-icons/image/timelapse';
 import SwapIcon from 'material-ui/svg-icons/action/swap-horiz';
 import SettingsIcon from 'material-ui/svg-icons/action/settings';
+import LeagueFlashIcon from 'material-ui/svg-icons/action/picture-in-picture';
 
 import { darkModifications, lightModifications } from '../themes';
 // import styles from './App.css';
@@ -59,6 +60,9 @@ export default class App extends Component<Props> {
               <MenuItem value="/config-swapper" leftIcon={<SwapIcon />}>
                 Config Swapper
               </MenuItem>
+              <MenuItem value="/league-flash" leftIcon={<LeagueFlashIcon />}>
+                League Flash
+              </MenuItem>
               <MenuItem value="/settings" leftIcon={<SettingsIcon />}>
                 Settings
               </MenuItem>
@@ -67,7 +71,6 @@ export default class App extends Component<Props> {
         </MuiThemeProvider>
         <MuiThemeProvider muiTheme={lightTheme}>
           <Paper className="app-space">
-            <div></div>
             {this.props.children}
           </Paper>
         </MuiThemeProvider>

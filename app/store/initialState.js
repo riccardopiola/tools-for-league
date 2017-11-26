@@ -30,6 +30,11 @@ export type SettingsType = {
   },
   ping: {
     interval: string, // Has to be parsed into INT
+  },
+  leagueFlash: {
+    username: string,
+    currentPatch: string,
+    showBrowserWindow: boolean
   }
 };
 
@@ -40,5 +45,10 @@ export const defaultLocalSettings = {
   },
   ping: {
     interval: '1000'
+  },
+  leagueFlash: {
+    username: '',
+    currentPatch: '',
+    showBrowserWindow: false
   }
 };

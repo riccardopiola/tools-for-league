@@ -5,7 +5,8 @@ import * as AppActions from '../actions/appActions';
 
 function mapStateToProps(state) {
   return {
-    home: state.app.home
+    route: state.app.route,
+    message: state.app.message
   };
 }
 

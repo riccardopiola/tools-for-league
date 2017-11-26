@@ -1,26 +1,33 @@
 // @flow
 import React, { Component } from 'react';
-// import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-// import getMuiTheme from 'material-ui/styles/getMuiTheme';
-// import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
-// import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 
 import HomePage from '../containers/HomePage';
 import GamePage from '../containers/GamePage';
-// import { darkModifications, lightModifications } from '../../themes';
-import '../league-app.global.css';
+import LoadingPage from '../containers/LoadingPage';
+import ErrorPage from './Error';
 
-// const darkTheme = getMuiTheme(darkBaseTheme, darkModifications);
-// const lightTheme = getMuiTheme(lightBaseTheme, lightModifications);
+type Props = {
+  route: string,
+  message: string,
+  changeRoute: (ruote: string, message?: string) => void
+};
 
-export default class App extends Component {
-  props: {
-    home: boolean,
-    showHome: (boolean) => void
-  }
+export default class App extends Component<Props> {
   render() {
-    return (
-        (this.props.home) ? <HomePage /> : <GamePage />
-    );
+    switch (this.props.route) {
+      case 'home':
+        return <HomePage />;
+      case 'game':
+        return <GamePage />;
+      case 'loading':
+        return <LoadingPage />;
+      default:
+        return (
+          <ErrorPage
+            message={this.props.message}
+            changeRoute={this.props.changeRoute}
+          />
+        );
+    }
   }
 }

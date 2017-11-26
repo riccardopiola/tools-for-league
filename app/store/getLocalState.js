@@ -33,11 +33,32 @@ async function getLocalState() {
   const savedConfigs = fse.ensureDir(`${dataPath}/savedConfigurations`);
   await Promise.all([tempConfigs, savedConfigs]);
   // Get the localsettings from the settings.json or create the file with standard settings
-  if (await fse.pathExists(`${dataPath}/settings.json`))
-    return fse.readJson(`${dataPath}/settings.json`);
-  const localSettings = getDefaultSettings(dataPath);
-  fse.writeJson(`${dataPath}/settings.json`, localSettings);
-  return localSettings;
+  const defaultSettings = getDefaultSettings(dataPath);
+  let newSettings = defaultSettings;
+  if (await fse.pathExists(`${dataPath}/settings.json`)) {
+    try {
+      const savedSettings = await fse.readJson(`${dataPath}/settings.json`);
+      newSettings = updateLocalSettings(defaultSettings, savedSettings);
+    } catch (e) {
+      newSettings = defaultSettings;
+    }
+  }
+  fse.writeJson(`${dataPath}/settings.json`, newSettings);
+  return newSettings;
+}
+
+function updateLocalSettings(defaultSettings, savedSettings) {
+  Object.keys(defaultSettings).forEach(key => {
+    if (savedSettings[key]) {
+      Object.keys(defaultSettings[key]).forEach(smallerKey => {
+        if (!savedSettings[key][smallerKey])
+          savedSettings[key][smallerKey] = defaultSettings[key][smallerKey];
+      });
+    } else {
+      savedSettings[key] = defaultSettings[key];
+    }
+  });
+  return savedSettings;
 }
 
 function getDefaultSettings(dataPath) {

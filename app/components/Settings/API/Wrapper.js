@@ -46,6 +46,7 @@ class SettingsWrapper extends Component<Props> {
         <AppBar
           showMenuIconButton={false}
           title="Settings"
+          className={styles.appbar}
           iconElementRight={
             <RaisedButton
               primary={true}

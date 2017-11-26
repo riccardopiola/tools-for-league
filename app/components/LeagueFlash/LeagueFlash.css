@@ -1,0 +1,90 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%
+}
+.AppBar {
+  height: 64px !important;
+  flex: 0 0 64px;
+  justify-content: space-between;
+  align-items: center;
+}
+.content {
+  flex: 1;
+  overflow: auto;
+}
+.content > section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #e4e4e4;
+  border-radius: 10px;
+  margin: 20px;
+  padding: 20px;
+}
+/* PATCHSECTION */
+.patchSection {
+  
+}
+.patchSection > h4 {
+  font-size: 18px;
+  margin: 0;
+  background-color: rgba(0,0,0,0.6);
+  color: rgba(252, 252, 252, 0.8);;
+  padding: 8px;
+  border-radius: 8px;
+}
+.savedPatch {
+  color: white;
+}
+.fetchedPatch {
+  color: rgb(230, 170, 50);
+}
+.messageBox {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  border-radius: 5px;
+  margin: 20px;
+  padding: 20px;
+  font-size: 18px;
+}
+.messageBox > p {
+  margin: 0;
+  margin-bottom: 10px;
+  font-weight: bold;
+  width: 90%;
+}
+.patchActionsContainer {
+  display: flex;
+  justify-content: center;
+}
+.patchButton {
+  margin: 10px;
+  margin-bottom: 0;
+}
+/* MAPSECTION */
+.mapSection {
+  align-items: flex-start;
+}
+.mapSection > h3 {
+  font-size: 18px;
+  margin: 0;
+  background-color: rgba(0,0,0,0.6);
+  color: rgba(252, 252, 252, 0.8);;
+  padding: 8px;
+  border-radius: 8px;
+}
+.mapStepperContainer {
+  padding: 0 5%;
+  align-self: flex-start;
+}
+.selectedFolder {
+  background-color: white;
+  border-radius: 5px;
+  padding: 2px;
+  margin: 0 5px;
+  font-size: 14px;
+}

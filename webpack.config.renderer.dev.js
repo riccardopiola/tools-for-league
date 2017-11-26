@@ -50,7 +50,13 @@ export default merge.smart(baseConfig, {
       'react-hot-loader/patch',
       `webpack-dev-server/client?http://localhost:${port}/`,
       'webpack/hot/only-dev-server',
-      path.join(__dirname, 'app/leagueFlash.js'),
+      path.join(__dirname, 'app/league-flash/index.js'),
+    ],
+    editor: [
+      'react-hot-loader/patch',
+      `webpack-dev-server/client?http://localhost:${port}/`,
+      'webpack/hot/only-dev-server',
+      path.join(__dirname, 'app/editor/index.js'),
     ]
   },
 

@@ -1,5 +1,6 @@
 // @flow
 import React, { Component } from 'react';
+import { findDOMNode } from 'react-dom';
 import TextField from 'material-ui/TextField';
 
 import BaseSetting from './BaseSetting';
@@ -11,14 +12,15 @@ type Props = {
   name: string,
   // Passing down
   value: string,
-  paths: string[]
+  paths: string[],
+  type: 'text' | 'number'
 };
 type State = {
   newValue: string,
   errorText: string
 };
 
-class DropDownSelection extends Component<Props, State> implements SpecificSettingWithValidation {
+class TextFieldSetting extends Component<Props, State> implements SpecificSettingWithValidation {
   state = {
     newValue: this.props.value,
     errorText: ''
@@ -34,6 +36,8 @@ class DropDownSelection extends Component<Props, State> implements SpecificSetti
     this.setState({ newValue });
   }
   render() {
+    if (this.refs.textfield)
+      findDOMNode(this.refs.textfield).focus();
     return (
       <div className={styles.singleSettingContainer}>
         <div className={styles.selectText}>{this.props.message}</div>
@@ -42,8 +46,9 @@ class DropDownSelection extends Component<Props, State> implements SpecificSetti
           className={styles.textFieldNumber}
           value={this.state.newValue}
           onChange={this.onChange}
-          type="number"
+          type={this.props.type}
           errorText={this.state.errorText}
+          ref="texfield"
         />
         <BaseSetting
           {...this.props}
@@ -56,4 +61,4 @@ class DropDownSelection extends Component<Props, State> implements SpecificSetti
   }
 }
 
-export default DropDownSelection;
+export default TextFieldSetting;

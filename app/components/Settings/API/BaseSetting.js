@@ -8,7 +8,7 @@ import { handleChange, discardChange } from '../../../actions/settingsActions';
 
 export interface SpecificSetting {
   state: {
-    newValue: string
+    newValue: string | boolean
   }
 }
 export interface SpecificSettingWithValidation {
@@ -38,12 +38,12 @@ type BaseProps = {
   changePermissionToExit: (canChange: boolean) => void,
   discardChange: (index: number) => void,
   // Coming from parent props
-  value: string,
+  value: string|boolean,
   paths: string[],
   validateFunctionAsync?: (path: string) => Promise<boolean>,
   validateFunctionSync?: (path: string) => boolean,
   // Coming from parent state
-  newValue: string,
+  newValue: string|boolean,
   // Methods from above
   updateValid?: (valid: boolean) => void,
   handleErrors?: (error: Error) => void
@@ -84,7 +84,7 @@ class BaseSetting extends Component<BaseProps, BaseState> {
       }
     }
   }
-  validate = (newValue: string) => {
+  validate = (newValue: string|boolean) => {
     if (this.props.validateFunctionAsync) {
       this.props.validateFunctionAsync(newValue) //eslint-disable-line
         .then(() => {
@@ -113,7 +113,7 @@ class BaseSetting extends Component<BaseProps, BaseState> {
     } else
       this.commit(newValue);
   }
-  commit = (newValue: string) => {
+  commit = (newValue: string|boolean) => {
     this.setState({ stagedChangesIndex: this.props.stagedChangesLength });
     if (this.props.updateValid)
       this.props.updateValid(true);

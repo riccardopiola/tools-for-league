@@ -6,6 +6,7 @@ import FolderSelection from './API/FolderSelection';
 import SettingsSection from './API/SettingsSection';
 import DropDownSetting from './API/DropDownSetting';
 import TextFieldSetting from './API/TextFieldSetting';
+import SwitchSetting from './API/SwitchSetting';
 
 import type { SettingsType } from '../../store/initialState';
 import * as validate from './validate';
@@ -36,6 +37,23 @@ const SettingsContent = (props: Props) => {
           paths={['ping', 'interval']}
           value={props.settings.ping.interval}
           validateFunctionSync={validate.intervalPing}
+          type="number"
+        />
+      </SettingsSection>
+      <SettingsSection title="League Flash">
+        <TextFieldSetting
+          message="League of legends username"
+          name="leagueFlashUsername"
+          paths={['leagueFlash', 'username']}
+          value={props.settings.leagueFlash.username}
+          type="text"
+        />
+        <Divider style={{ margin: '-1px 24px 0px 24px', marginLeft: '24px' }} />
+        <SwitchSetting
+          message="Show OP.GG page while loading"
+          name="leagueFlashShowBrowser"
+          paths={['leagueFlash', 'showBrowserWindow']}
+          value={props.settings.leagueFlash.showBrowserWindow}
         />
       </SettingsSection>
     </div>

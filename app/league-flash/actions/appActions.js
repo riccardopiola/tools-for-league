@@ -1,11 +1,16 @@
 // @flow
-export const appActionsTypes = {
-  SHOW_HOME: 'SHOW_HOME'
-};
+import { ipcRenderer } from 'electron';
 
-export function showHome(home: boolean) {
-  return {
-    type: appActionsTypes.SHOW_HOME,
-    value: home
+export function changeRoute(route: string, message?: string = '') {
+  return (dispatch, getState) => {
+    if (route === 'game')
+      ipcRenderer.send('enter-game-mode');
+    else if (getState().app.route === 'game')
+      ipcRenderer.send('leave-game-mode');
+    dispatch({
+      type: 'CHANGE_ROUTE',
+      route,
+      message
+    });
   };
 }

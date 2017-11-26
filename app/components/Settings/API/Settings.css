@@ -4,6 +4,12 @@
   flex-direction: column;
 }
 
+.appbar {
+  height: 64px !important;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .settingsSection {
   margin: 10px 10px 0 10px;
   padding: 10px 0;
@@ -28,6 +34,10 @@
 
 .folderIcon {
   width: 20%;
+}
+
+.toggle {
+  flex: 0;
 }
 
 .folderSelectionText {
@@ -58,6 +68,8 @@
 .textFieldNumber {
   width: 100px !important;
 }
+
+.toggle
 
 .footer{
   display: flex;

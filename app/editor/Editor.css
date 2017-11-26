@@ -1,0 +1,140 @@
+body {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  background-color: black;
+}
+.container {
+  height: 100vh;
+}
+.content {
+  overflow: hidden;
+}
+
+/* FOOTER */
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  height: 60px;
+  width: 100vw;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+}
+.actionBar {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  overflow: hidden;
+  margin-left: 10px;
+}
+.footerDropDownName {
+  margin-left: 10px;
+  flex: 2 0 200px;
+}
+.footerSelectorCoord {
+  padding: 0 10px;
+  flex: 1 0 72px;
+  width: 72px !important;
+}
+.endButton {
+  flex: 0 0 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* SELECTOR */
+.selectorContainer {
+  position: absolute;
+  box-sizing: border-box;
+  opacity: 0.5;
+  border: 1px solid yellowgreen;
+}
+.selectorContainerActive {
+  position: absolute;
+  box-sizing: border-box;
+  border: 1px dotted yellow;
+  opacity: 1;
+}
+
+/* TOOLTIP */
+
+.tooltipContainer {
+  position: absolute;
+  box-sizing: border-box;
+  z-index: 100;
+  padding: 5px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 2px;
+}
+.tolltipSettingsTop {
+  display: flex;
+}
+.tooltipLockedSetting {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lockTooltipLabel {
+  font-size: 12px;
+}
+.tooltipModeSettingsContainer {
+  display: flex;
+  align-items: center;
+}
+.tooltipModeSetting {
+  font-size: 12px;
+  cursor: pointer;
+  width: 50px;
+  text-align: center;
+}
+.tooltipCommands {
+  display: flex;
+}
+.tooltipArrow {
+  width: 25%;
+  text-align: center;
+  cursor: pointer;
+  box-sizing: border-box;
+  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* DIALOG */
+.dialogContaiener {
+  display: flex;
+  flex-direction: column;
+}
+.dialogSection {
+  display: flex;
+  margin: 10px 15px;
+}
+.dialogSectionCol {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 15px;
+}
+.description {
+  padding-left: 15px;
+}
+.tableRow {
+  margin-bottom: 5px;
+}
+.tableRow > td:first-child {
+  text-align: center;
+  font-weight: bold;
+  padding-right: 5px;
+}
+.dialogSection > img {
+  align-self: center;
+  height: auto;
+}
+.dialogSection > p {
+  margin: 10px;
+}
