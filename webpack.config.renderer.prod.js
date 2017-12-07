@@ -23,7 +23,7 @@ export default merge.smart(baseConfig, {
       './app/index'
     ],
     leagueFlash: [
-      './app/leagueFlash'
+      './app/index'
     ],
     editor: [
       './app/editor/index'

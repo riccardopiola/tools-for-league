@@ -1,7 +1,7 @@
 {
   "name": "tools-for-lol",
   "productName": "Tools for Lol",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "A simple app with useful tools for League of Legends",
   "scripts": {
     "build": "concurrently \"npm run build-main\" \"npm run build-renderer\"",
@@ -39,7 +39,8 @@
       "main.prod.js",
       "main.prod.js.map",
       "package.json",
-      "league-flash.html"
+      "league-flash/league-flash.html",
+      "editor/editor.html"
     ],
     "dmg": {
       "contents": [
@@ -69,7 +70,8 @@
     "directories": {
       "buildResources": "resources",
       "output": "release"
-    }
+    },
+    "extraResources": ["resources/extraResources"]
   },
   "repository": {
     "type": "git",

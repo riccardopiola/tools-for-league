@@ -51,7 +51,7 @@ export default class LLHookManager {
     const y = Number.parseInt(/y:\s(\d+)/.exec(line)[1], 10);
 
     // Check if it's the lock icon
-    if (x < 5 && y < 5)
+    if (x < 19 && y < 19)
       return this.dispatch(toggleEnableClick());
 
     // Check if its a summoner spell

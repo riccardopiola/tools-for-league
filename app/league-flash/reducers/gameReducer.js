@@ -26,10 +26,8 @@ export type SpellType = {
 
 const defGameState = {
   activeChampions: [],
-  // clickEnabled: process.platform === 'darwin',
-  // displayAll: process.platform === 'darwin'
-  displayAll: true,
-  clickEnabled: true // development variable
+  displayAll: process.env.NODE_ENV === 'development' || process.platform === 'darwin',
+  clickEnabled: process.env.NODE_ENV === 'development' || process.platform === 'darwin'
 };
 
 function game(state: GameState = defGameState, action: Action) {
