@@ -5,6 +5,7 @@ import * as DataActions from '../actions/dataActions';
 import { changeRoute } from '../actions/appActions';
 import { initiateActiveChampionsArray } from '../actions/gameActions';
 import { initiateTimers } from '../actions/timerActions';
+import { uploadGameData } from '../actions/firebaseActions';
 
 function mapStateToProps(state) {
   return {
@@ -19,7 +20,8 @@ function mapDispatchToProps(dispatch) {
     ...DataActions,
     initiateActiveChampionsArray,
     initiateTimers,
-    changeRoute
+    changeRoute,
+    uploadGameData
   }, dispatch);
 }
 

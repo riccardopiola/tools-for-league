@@ -29,7 +29,7 @@ const defGameState = {
   // clickEnabled: process.platform === 'darwin',
   // displayAll: process.platform === 'darwin'
   displayAll: true,
-  clickEnabled: true
+  clickEnabled: true // development variable
 };
 
 function game(state: GameState = defGameState, action: Action) {

@@ -1,6 +1,5 @@
 // @flow
 import React, { Component } from 'react';
-import { findDOMNode } from 'react-dom';
 import TextField from 'material-ui/TextField';
 
 import BaseSetting from './BaseSetting';
@@ -36,8 +35,6 @@ class TextFieldSetting extends Component<Props, State> implements SpecificSettin
     this.setState({ newValue });
   }
   render() {
-    if (this.refs.textfield)
-      findDOMNode(this.refs.textfield).focus();
     return (
       <div className={styles.singleSettingContainer}>
         <div className={styles.selectText}>{this.props.message}</div>
@@ -48,7 +45,6 @@ class TextFieldSetting extends Component<Props, State> implements SpecificSettin
           onChange={this.onChange}
           type={this.props.type}
           errorText={this.state.errorText}
-          ref="texfield"
         />
         <BaseSetting
           {...this.props}

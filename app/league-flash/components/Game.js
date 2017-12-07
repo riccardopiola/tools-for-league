@@ -4,6 +4,8 @@ import ChampionView from '../containers/ChampionViewContainer';
 import type { ActiveChampionObj } from '../reducers/gameReducer';
 import type { TimerState } from '../reducers/timerReducer';
 import Button from './subcomponents/Button';
+import LLHookManager from '../utils/LLMouseEvents';
+import FirebaseListener from '../utils/FirebaseListener';
 
 import LockOpen from '../styles/lock-open.svg';
 import LockClosed from '../styles/lock-closed.svg';
@@ -17,11 +19,30 @@ type Props = {
   changeRoute: (route: string) => void,
   toggleEnableClick: () => void,
   toggleDisplayAll: () => void,
-  timerTick: () => void
+  timerTick: () => void,
+  // MouseManagerProps
+  dispatch: Function,
+  dataPath: string,
+  enemyTeam: string,
+  // Firebase
+  firebaseEnabled: boolean,
+  gameId: string,
+  fireDB: any // Firebase DB instance
 }
 
-export default class App extends Component<Props> {
-  interval: any
+export default class Game extends Component<Props> {
+  interval: any;
+  MouseEventsManager: any;
+  firebaseListener: any;
+  componentWillMount() {
+    if (process.platform === 'win32') {
+      this.MouseEventsManager = new LLHookManager(this.props.dispatch, this.props.enemyTeam, this.props.dataPath);
+      this.MouseEventsManager.start();
+    }
+    if (this.props.firebaseEnabled) {
+      this.initiateFirebase();
+    }
+  }
   componentWillReceiveProps(nextProps: Props) {
     // Check if we have to do something with the interval
     const hasActiveTimers = Object.keys(nextProps.timers).some(username => {
@@ -43,6 +64,18 @@ export default class App extends Component<Props> {
   componentWillUnmount() {
     clearInterval(this.interval);
     this.interval = null;
+    if (process.platform === 'win32') {
+      this.MouseEventsManager.end();
+      this.MouseEventsManager = null;
+    }
+    if (this.props.firebaseEnabled) {
+      this.firebaseListener.removeListeners();
+      this.firebaseListener = null;
+    }
+  }
+  initiateFirebase = () => {
+    this.firebaseListener = new FirebaseListener(this.props.fireDB, this.props.dispatch, this.props.gameId);
+    this.firebaseListener.setupListeners();
   }
   renderClassic = () => {
     return this.props.activeChampions.map((user, i) => {
@@ -63,7 +96,7 @@ export default class App extends Component<Props> {
       <div className={styles.gameContainer}>
         <div className="buttons-container">
           <Button
-            onClick={() => this.props.toggleEnableClick(!this.props.clickEnabled)}
+            onClick={() => this.props.toggleEnableClick()}
             classesArray={[styles.inputActionBtn]}
             active={this.props.clickEnabled}
           >

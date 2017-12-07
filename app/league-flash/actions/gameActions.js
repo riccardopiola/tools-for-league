@@ -10,10 +10,13 @@ export function initiateActiveChampionsArray(activeChampions: ActiveChampionObj[
   };
 }
 
-export function toggleEnableClick(isEnabled) {
-  ipcRenderer.send('set-focusable', (isEnabled) ? 'focus' : 'drop-focus');
-  return {
-    type: 'TOGGLE_ENABLE_CLICK',
+export function toggleEnableClick() {
+  return (dispatch, getState) => {
+    const isEnabled = getState().game.clickEnabled;
+    ipcRenderer.send('set-focusable', (isEnabled) ? 'focus' : 'drop-focus');
+    dispatch({
+      type: 'TOGGLE_ENABLE_CLICK',
+    });
   };
 }
 

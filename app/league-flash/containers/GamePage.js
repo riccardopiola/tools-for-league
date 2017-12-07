@@ -10,12 +10,18 @@ function mapStateToProps(state) {
     activeChampions: state.game.activeChampions,
     displayAll: state.game.displayAll,
     clickEnabled: state.game.clickEnabled,
-    timers: state.timers
+    timers: state.timers,
+    enemyTeam: state.data.gameData.enemyTeam,
+    dataPath: state.app.settings.dataPath,
+    firebaseEnabled: state.firebase.firebaseEnabled,
+    gameId: state.firebase.gameId,
+    fireDB: state.firebase.fireDB
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ ...GameActions, ...TimerActions, changeRoute }, dispatch);
+  const actionCreators = bindActionCreators({ ...GameActions, ...TimerActions, changeRoute }, dispatch);
+  return { ...actionCreators, dispatch };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);

@@ -46,4 +46,7 @@ export type Action =
 } | {
   type: 'NEW_TICK',
   newTimers: TimerState
+} | {
+  type: 'UPLOAD_GAME_DATA',
+  payload: GameData
 }

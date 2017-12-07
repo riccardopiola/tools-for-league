@@ -2,7 +2,7 @@
 import React from 'react';
 
 type Props = {
-  onClick: (any) => void,
+  onClick: () => void,
   label?: string,
   children?: any,
   classesArray?: string[],

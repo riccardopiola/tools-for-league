@@ -39,9 +39,9 @@ ipcMain.on('leave-game-mode', () => {
 });
 ipcMain.on('set-focusable', (e, focus: 'focus'|'drop-focus') => {
   if (focus === 'focus')
-    leagueAppWindow.setIgnoreMouseEvents(false);
-  else
     leagueAppWindow.setIgnoreMouseEvents(true);
+  else
+    leagueAppWindow.setIgnoreMouseEvents(false);
 });
 
 /* SCRAPER WINDOW */

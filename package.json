@@ -175,6 +175,7 @@
   "dependencies": {
     "devtron": "^1.4.0",
     "electron-debug": "^1.2.0",
+    "firebase": "^4.7.0",
     "font-awesome": "^4.7.0",
     "fs-extra": "^4.0.2",
     "history": "^4.6.3",

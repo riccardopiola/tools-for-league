@@ -7,6 +7,7 @@ import configureStore from './store/configureStore';
 import Root from './containers/Root';
 import { setCurrentPatch } from './actions/dataActions';
 import { changeRoute } from './actions/appActions';
+import setupHook from './utils/LLMouseEvents';
 
 import './styles/league-app.global.css';
 
@@ -20,6 +21,7 @@ ipcRenderer.on('settings', (event, settingsString: string) => {
   });
   store.dispatch(setCurrentPatch(settings.currentPatch));
   store.dispatch(changeRoute('home'));
+
 });
 
 render(

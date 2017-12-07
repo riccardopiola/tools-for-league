@@ -14,7 +14,7 @@ export default function cacheResources(patch: string, dataPath: string) : Promis
   // if (firebaseExists) Integrate changes with firebase
   return Promise.all([championsData, spellsData, spellsColors])
     .then((arr) => {
-      return checkFolders(patch).then(() => arr);
+      return checkFolders(patch, dataPath).then(() => arr);
     })
     .then(arr => {
       return Promise.all(arr.map(file => {
@@ -28,8 +28,8 @@ export default function cacheResources(patch: string, dataPath: string) : Promis
  * (keeps one for good measure)
  * @param {string} patch
  */
-function checkFolders(patch: string): Promise<*> {
-  const baseURI = `${process.cwd()}/resources/ddragon`;
+function checkFolders(patch: string, dataPath: string): Promise<*> {
+  const baseURI = `${dataPath}/ddragon`;
   return fse.pathExists(`${baseURI}/${patch}`)
     .then(exists => {
       if (exists)

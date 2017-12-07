@@ -69,6 +69,7 @@ export default class LeagueFlash extends Component<Props, State> {
           <PatchSection />
           <MapSection
             dataPath={this.props.generalSettings.dataPath}
+            hasMapping={this.state.hasMapping}
             onNowHasMapping={() => this.setState({ hasMapping: true })}
           />
         </div>

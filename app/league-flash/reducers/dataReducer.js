@@ -20,7 +20,7 @@ export type DataState = {
     message: string
   },
   currentPatch?: string,
-  gameData?: {}
+  gameData?: GameData
 }
 
 const defaultState = {

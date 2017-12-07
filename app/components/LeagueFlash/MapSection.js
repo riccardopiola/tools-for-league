@@ -10,7 +10,8 @@ import styles from './LeagueFlash.css';
 
 type Props = {
   dataPath: string,
-  onNowHasMapping: () => void
+  onNowHasMapping: () => void,
+  hasMapping: boolean
 }
 type State = {
   selectedFile?: string,
@@ -35,6 +36,8 @@ export default class MapSection extends Component<Props, State> {
     getImageSize(this.state.selectedFile)
       .then(dimensions => {
         this.setState({ screenDimensions: dimensions });
+        if (this.props.hasMapping)
+          return fse.readJson(`${this.props.dataPath}/mapping.json`);
         return generateMapping(dimensions);
       })
       .then((selectors: SelectorsStore) => {

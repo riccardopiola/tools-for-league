@@ -5,6 +5,7 @@ import { ipcRenderer } from 'electron';
 import styles from '../styles/Loading.css';
 import composeChampionsArray from '../utils/composeChampionsArray';
 import type { ActiveChampionObj } from '../reducers/gameReducer';
+import type { GameData } from '../reducers/dataReducer';
 
 type Props = {
   settings: {
@@ -23,7 +24,8 @@ type Props = {
   changeRoute: (route: string, message?: string) => void,
   saveData: (data: {}) => void,
   initiateActiveChampionsArray: () => void,
-  initiateTimers: (championsArray: ActiveChampionObj[]) => void
+  initiateTimers: (championsArray: ActiveChampionObj[]) => void,
+  uploadGameData: (gameData: GameData) => void
 }
 
 export default class Loading extends Component<Props> {
@@ -44,6 +46,7 @@ export default class Loading extends Component<Props> {
         case 'ok':
           this.props.saveData(JSON.parse(data));
           this.processData(JSON.parse(data));
+          this.props.uploadGameData(JSON.parse(data));
           break;
         case 'not-playing':
           this.props.changeRoute('error', `summoner "${this.props.settings.username}" is not currently in a game`);
@@ -56,7 +59,7 @@ export default class Loading extends Component<Props> {
       }
     });
   }
-  processData = (gameData: any) => {
+  processData = (gameData: GameData) => {
     composeChampionsArray(gameData, this.props.settings.currentPatch, this.props.settings.dataPath)
       .then(activeChampions => {
         this.props.initiateActiveChampionsArray(activeChampions);
