@@ -30,7 +30,7 @@ function firebaseReducer(state: FirebaseState = defaultState, action: Action) {
     return state;
   switch (action.type) {
     case 'UPLOAD_GAME_DATA':
-      db
+      state.db
         .ref('leagueFlash')
         .child(action.payload.timestamp)
         .child('gameData')
@@ -44,7 +44,7 @@ function firebaseReducer(state: FirebaseState = defaultState, action: Action) {
         gameId: action.payload.timestamp
       };
     case 'ACTIVATE_TIMER':
-      db
+      state.db
         .ref('leagueFlash')
         .child(state.gameId)
         .child('timers')
@@ -60,7 +60,7 @@ function firebaseReducer(state: FirebaseState = defaultState, action: Action) {
         });
       break;
     case 'TERMINATE_TIMER':
-      db
+      state.db
         .ref('leagueFlash')
         .child(state.gameId)
         .child('timers')

@@ -45,8 +45,8 @@ export default class Loading extends Component<Props> {
       switch (status) {
         case 'ok':
           this.props.saveData(JSON.parse(data));
-          this.processData(JSON.parse(data));
           this.props.uploadGameData(JSON.parse(data));
+          this.processData(JSON.parse(data));
           break;
         case 'not-playing':
           this.props.changeRoute('error', `summoner "${this.props.settings.username}" is not currently in a game`);

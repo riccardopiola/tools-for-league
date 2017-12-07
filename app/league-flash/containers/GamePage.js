@@ -15,7 +15,7 @@ function mapStateToProps(state) {
     dataPath: state.app.settings.dataPath,
     firebaseEnabled: state.firebase.firebaseEnabled,
     gameId: state.firebase.gameId,
-    fireDB: state.firebase.fireDB
+    fireDB: state.firebase.db
   };
 }
 
