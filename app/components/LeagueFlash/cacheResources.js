@@ -34,7 +34,7 @@ function checkFolders(patch: string, dataPath: string): Promise<*> {
     .then(exists => {
       if (exists)
         return fse.emptyDir(`${baseURI}/${patch}`);
-      return fse.mkdir(`${baseURI}/${patch}`);
+      return fse.ensureDir(`${baseURI}/${patch}`);
     })
     .then(() => {
       return fse.readdir(baseURI);

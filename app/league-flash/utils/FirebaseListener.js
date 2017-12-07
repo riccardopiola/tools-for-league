@@ -3,7 +3,8 @@ import { activateTimerFromFirebase, terminateTimerFromFirebase } from '../action
 
 export default class FirebaseListener {
   db: any;
-  dispatch: any
+  dispatch: any;
+  gameId: string;
   constructor(db: any, dispatch: any, gameId: string) {
     this.db = db;
     this.dispatch = dispatch;
